@@ -4,66 +4,21 @@ namespace Stitcher\Variable;
 
 use Brendt\Image\ResponsiveFactory;
 use Parsedown;
+use Stitcher\DynamicFactory;
 use Symfony\Component\Yaml\Yaml;
 
-class VariableFactory
+class VariableFactory extends DynamicFactory
 {
-    private $rules = [];
     private $yamlParser = null;
     private $markdownParser = null;
     private $imageParser = null;
 
     public function __construct()
     {
-        $this->setRule(JsonVariable::class, function (string $value) {
-            if (is_string($value) && pathinfo($value, PATHINFO_EXTENSION) === 'json') {
-                return JsonVariable::create($value);
-            }
-
-            return null;
-        });
-
-        $this->setRule(YamlVariable::class, function (string $value) {
-            if ($this->yamlParser && (
-                    pathinfo($value, PATHINFO_EXTENSION) === 'yaml'
-                    || pathinfo($value, PATHINFO_EXTENSION) === 'yml'
-                )
-            ) {
-                return YamlVariable::create($value, $this->yamlParser);
-            }
-
-            return null;
-        });
-
-        $this->setRule(MarkdownVariable::class, function (string $value) {
-            if ($this->markdownParser && pathinfo($value, PATHINFO_EXTENSION) === 'md') {
-                return MarkdownVariable::create($value, $this->markdownParser);
-            }
-
-            return null;
-        });
-
-        $this->setRule(ImageVariable::class, function ($value) {
-            if (!$this->imageParser) {
-                return null;
-            }
-
-            if (is_array($value)) {
-                $value = $value['src'] ?? null;
-            }
-
-            $extension = pathinfo($value, PATHINFO_EXTENSION);
-
-            if ($extension === 'jpeg'
-                || $extension === 'jpg'
-                || $extension === 'png'
-                || $extension === 'gif'
-            ) {
-                return ImageVariable::create($value, $this->imageParser);
-            }
-
-            return null;
-        });
+        $this->setJsonRule();
+        $this->setYamlRule();
+        $this->setMarkdownRule();
+        $this->setImageRule();
     }
 
     public function setYamlParser(Yaml $yamlParser) : VariableFactory
@@ -87,25 +42,9 @@ class VariableFactory
         return $this;
     }
 
-    public function setRule(string $class, callable $callback) : VariableFactory
-    {
-        $this->rules[$class] = $callback;
-
-        return $this;
-    }
-
-    public function removeRule(string $class) : VariableFactory
-    {
-        if (isset($this->rules[$class])) {
-            unset($this->rules[$class]);
-        }
-
-        return $this;
-    }
-
     public function create($value) : ?AbstractVariable
     {
-        foreach ($this->rules as $rule) {
+        foreach ($this->getRules() as $rule) {
             try {
                 $variable = $rule($value);
             } catch (\TypeError $e) {
@@ -118,5 +57,67 @@ class VariableFactory
         }
 
         return null;
+    }
+
+    private function setJsonRule() : DynamicFactory
+    {
+        return $this->setRule(JsonVariable::class, function (string $value) {
+            if (is_string($value) && pathinfo($value, PATHINFO_EXTENSION) === 'json') {
+                return JsonVariable::create($value);
+            }
+
+            return null;
+        });
+    }
+
+    private function setYamlRule()
+    {
+        $this->setRule(YamlVariable::class, function (string $value) {
+            if ($this->yamlParser && (
+                    pathinfo($value, PATHINFO_EXTENSION) === 'yaml'
+                    || pathinfo($value, PATHINFO_EXTENSION) === 'yml'
+                )
+            ) {
+                return YamlVariable::create($value, $this->yamlParser);
+            }
+
+            return null;
+        });
+    }
+
+    private function setMarkdownRule()
+    {
+        $this->setRule(MarkdownVariable::class, function (string $value) {
+            if ($this->markdownParser && pathinfo($value, PATHINFO_EXTENSION) === 'md') {
+                return MarkdownVariable::create($value, $this->markdownParser);
+            }
+
+            return null;
+        });
+    }
+
+    private function setImageRule()
+    {
+        $this->setRule(ImageVariable::class, function ($value) {
+            if (!$this->imageParser) {
+                return null;
+            }
+
+            if (is_array($value)) {
+                $value = $value['src'] ?? null;
+            }
+
+            $extension = pathinfo($value, PATHINFO_EXTENSION);
+
+            if ($extension === 'jpeg'
+                || $extension === 'jpg'
+                || $extension === 'png'
+                || $extension === 'gif'
+            ) {
+                return ImageVariable::create($value, $this->imageParser);
+            }
+
+            return null;
+        });
     }
 }
