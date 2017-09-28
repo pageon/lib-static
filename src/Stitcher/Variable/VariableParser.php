@@ -20,7 +20,13 @@ class VariableParser
     {
         $variable = $this->factory->create($value);
         $parsed = $variable ? $variable->parse()->parsed() : $value;
+        $parsed = $this->parseChildren($value, $parsed);
 
+        return $parsed;
+    }
+
+    private function parseChildren($value, $parsed)
+    {
         if (is_array($parsed)) {
             foreach ($parsed as &$parsedField) {
                 $parsedField = $this->parse($parsedField);

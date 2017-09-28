@@ -31,29 +31,11 @@ EOT
     /** @test */
     public function it_can_be_parsed_recursively()
     {
-        $parentPath = File::path('YamlVariableTest_test_recursive_parent.yaml');
-        File::put($parentPath, <<<EOT
-entry:
-    title: Test
-    child: YamlVariableTest_test_recursive_child.yaml
-    body: body.md
-EOT
-        );
-
-        $childPath = File::path('YamlVariableTest_test_recursive_child.yaml');
-        File::put($childPath, <<<EOT
-title: Child
-EOT
-        );
-
-        $bodyPath = File::path('body.md');
-        File::put($bodyPath, <<<EOT
-# Hello world
-EOT
-        );
+        $path = File::path('YamlVariableTest_test_recursive_parent.yaml');
+        $this->createRecursiveFiles($path);
 
         $variableParser = VariableParser::create($this->createVariableFactory());
-        $parsed = $variableParser->parse($parentPath);
+        $parsed = $variableParser->parse($path);
 
         $this->assertTrue(isset($parsed['entry']['child']['title']));
     }
@@ -74,5 +56,29 @@ EOT
             'sourcePath' => File::path(),
             'publicPath' => File::path('/public'),
         ]));
+    }
+
+    private function createRecursiveFiles(string $path)
+    {
+        $parentPath = File::path($path);
+        File::put($parentPath, <<<EOT
+entry:
+    title: Test
+    child: YamlVariableTest_test_recursive_child.yaml
+    body: body.md
+EOT
+        );
+
+        $childPath = File::path('YamlVariableTest_test_recursive_child.yaml');
+        File::put($childPath, <<<EOT
+title: Child
+EOT
+        );
+
+        $bodyPath = File::path('body.md');
+        File::put($bodyPath, <<<EOT
+# Hello world
+EOT
+        );
     }
 }
