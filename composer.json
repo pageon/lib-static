@@ -4,7 +4,8 @@
         "symfony/yaml": "^3.3",
         "erusev/parsedown": "^1.6",
         "symfony/filesystem": "^3.3",
-        "brendt/responsive-images": "^1.9"
+        "brendt/responsive-images": "^1.9",
+        "twig/twig": "^2.4"
     },
     "require-dev" : {
         "larapack/dd" : "^1.0",
