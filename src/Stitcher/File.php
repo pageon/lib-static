@@ -17,6 +17,8 @@ class File
     public static function path(string $path = null) : string
     {
         $path = str_replace(self::$base, '', $path);
+        $path = ltrim($path, '/');
+        $path = "/{$path}";
 
         return self::$base . $path;
     }
