@@ -12,7 +12,7 @@ class MarkdownVariableTest extends StitcherTest
         $path = File::path('/MarkdownVariableTest_test.md');
         File::put($path, $this->getMarkdown());
 
-        $variable = MarkdownVariable::create($path, new \Parsedown())->parse();
+        $variable = MarkdownVariable::make($path, new \Parsedown())->parse();
 
         $this->assertTrue(is_string($variable->parsed()));
         $this->assertContains('<h1>', $variable->parsed());

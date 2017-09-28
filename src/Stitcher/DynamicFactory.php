@@ -2,11 +2,9 @@
 
 namespace Stitcher;
 
-abstract class DynamicFactory
+abstract class DynamicFactory implements Factory
 {
     private $rules = [];
-
-    abstract public function create($value);
 
     public function setRule(string $class, callable $callback) : DynamicFactory
     {

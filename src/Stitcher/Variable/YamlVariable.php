@@ -16,7 +16,7 @@ class YamlVariable extends AbstractVariable
         $this->parser = $parser;
     }
 
-    public static function create(string $value, Yaml $parser) : YamlVariable
+    public static function make(string $value, Yaml $parser) : YamlVariable
     {
         return new self($value, $parser);
     }

@@ -18,8 +18,7 @@ class VariableFactoryTest extends StitcherTest
     /** @test */
     public function it_creates_the_right_variable()
     {
-        $factory = new VariableFactory();
-        $factory
+        $factory = VariableFactory::make()
             ->setYamlParser(new Yaml())
             ->setMarkdownParser(new \Parsedown())
             ->setImageParser($this->createResponsiveFactory());

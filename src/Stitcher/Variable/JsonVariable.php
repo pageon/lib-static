@@ -6,7 +6,7 @@ use Stitcher\File;
 
 class JsonVariable extends AbstractVariable
 {
-    public static function create(string $value) : JsonVariable
+    public static function make(string $value) : JsonVariable
     {
         return new self($value);
     }

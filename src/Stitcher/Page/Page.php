@@ -2,29 +2,27 @@
 
 namespace Stitcher\Page;
 
-use Stitcher\Configurable;
-use Stitcher\Validatory;
-
-class Page implements Configurable, Validatory
+class Page
 {
+    private $id = null;
     private $template = null;
     private $variables = [];
 
-    public static function create() : Page
+    public function __construct(string $id, string $template, array $variables = [])
     {
-        return new self();
+        $this->id = $id;
+        $this->template = $template;
+        $this->variables = $variables;
     }
 
-    public function withConfig(array $config) : Page
+    public static function make(string $id, string $template, array $variables = []) : Page
     {
-        $this->template = $config['template'] ?? null;
-        $this->variables = $config['variables'] ?? [];
-
-        return $this;
+        return new self($id, $template, $variables);
     }
 
-    public function isValid() : bool
+    public function getVariable(string $name)
     {
-        return $this->template !== null;
+        return $this->variables[$name] ?? null;
     }
+
 }

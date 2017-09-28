@@ -16,7 +16,7 @@ class ImageVariableTest extends StitcherTest
         $path = File::path('/image_test.jpg');
         File::put($path, @file_get_contents($this->getTestDir() . '/resources/green.jpg'));
 
-        $variable = ImageVariable::create('image_test.jpg', $this->createResponsiveFactory())->parse();
+        $variable = ImageVariable::make('image_test.jpg', $this->createResponsiveFactory())->parse();
 
         $parsed = $variable->parsed();
         $this->assertTrue(is_array($parsed));
@@ -32,7 +32,7 @@ class ImageVariableTest extends StitcherTest
         $path = File::path('/image_test.jpg');
         File::put($path, @file_get_contents($this->getTestDir() . '/resources/green.jpg'));
 
-        $variable = ImageVariable::create([
+        $variable = ImageVariable::make([
             'src' => 'image_test.jpg',
             'alt' => 'test',
         ], $this->createResponsiveFactory())->parse();

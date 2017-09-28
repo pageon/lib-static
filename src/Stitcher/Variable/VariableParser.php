@@ -11,7 +11,7 @@ class VariableParser
         $this->factory = $factory;
     }
 
-    public static function create(VariableFactory $factory) : VariableParser
+    public static function make(VariableFactory $factory) : VariableParser
     {
         return new self($factory);
     }

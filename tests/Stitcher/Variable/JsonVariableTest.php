@@ -15,7 +15,7 @@ class JsonVariableTest extends StitcherTest
             'test' => 'test',
         ]));
 
-        $variable = JsonVariable::create($path)->parse();
+        $variable = JsonVariable::make($path)->parse();
 
         $this->assertTrue(is_array($variable->parsed()));
         $this->assertArrayHasKey('test', $variable->parsed());

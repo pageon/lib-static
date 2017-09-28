@@ -21,6 +21,11 @@ class VariableFactory extends DynamicFactory
         $this->setImageRule();
     }
 
+    public static function make() : VariableFactory
+    {
+        return new self();
+    }
+
     public function setYamlParser(Yaml $yamlParser) : VariableFactory
     {
         $this->yamlParser = $yamlParser;
@@ -63,7 +68,7 @@ class VariableFactory extends DynamicFactory
     {
         return $this->setRule(JsonVariable::class, function (string $value) {
             if (is_string($value) && pathinfo($value, PATHINFO_EXTENSION) === 'json') {
-                return JsonVariable::create($value);
+                return JsonVariable::make($value);
             }
 
             return null;
@@ -80,7 +85,7 @@ class VariableFactory extends DynamicFactory
             $extension = pathinfo($value, PATHINFO_EXTENSION);
 
             if (in_array($extension, ['yaml', 'yml'])) {
-                return YamlVariable::create($value, $this->yamlParser);
+                return YamlVariable::make($value, $this->yamlParser);
             }
 
             return null;
@@ -91,7 +96,7 @@ class VariableFactory extends DynamicFactory
     {
         $this->setRule(MarkdownVariable::class, function (string $value) {
             if ($this->markdownParser && pathinfo($value, PATHINFO_EXTENSION) === 'md') {
-                return MarkdownVariable::create($value, $this->markdownParser);
+                return MarkdownVariable::make($value, $this->markdownParser);
             }
 
             return null;
@@ -112,7 +117,7 @@ class VariableFactory extends DynamicFactory
             $extension = pathinfo($value, PATHINFO_EXTENSION);
 
             if (in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
-                return ImageVariable::create($value, $this->imageParser);
+                return ImageVariable::make($value, $this->imageParser);
             }
 
             return null;

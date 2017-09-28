@@ -15,7 +15,7 @@ class ImageVariable extends AbstractVariable
         $this->responsiveFactory = $responsiveFactory;
     }
 
-    public static function create($value, ResponsiveFactory $responsiveFactory) : ImageVariable
+    public static function make($value, ResponsiveFactory $responsiveFactory) : ImageVariable
     {
         if (is_string($value)) {
             $value = [

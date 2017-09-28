@@ -21,7 +21,7 @@ entry:
 EOT
         );
 
-        $variableParser = VariableParser::create($this->createVariableFactory());
+        $variableParser = VariableParser::make($this->createVariableFactory());
         $parsed = $variableParser->parse($path);
 
         $this->assertTrue(is_array($parsed));
@@ -34,7 +34,7 @@ EOT
         $path = File::path('YamlVariableTest_test_recursive_parent.yaml');
         $this->createRecursiveFiles($path);
 
-        $variableParser = VariableParser::create($this->createVariableFactory());
+        $variableParser = VariableParser::make($this->createVariableFactory());
         $parsed = $variableParser->parse($path);
 
         $this->assertTrue(isset($parsed['entry']['child']['title']));
@@ -42,10 +42,10 @@ EOT
 
     private function createVariableFactory() : VariableFactory
     {
-        $factory = new VariableFactory();
-        $factory->setMarkdownParser(new Parsedown());
-        $factory->setYamlParser(new Yaml());
-        $factory->setImageParser($this->createResponsiveFactory());
+        $factory = VariableFactory::make()
+            ->setMarkdownParser(new Parsedown())
+            ->setYamlParser(new Yaml())
+            ->setImageParser($this->createResponsiveFactory());
 
         return $factory;
     }

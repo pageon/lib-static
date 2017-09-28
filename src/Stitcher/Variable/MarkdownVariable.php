@@ -3,6 +3,8 @@
 namespace Stitcher\Variable;
 
 use Parsedown;
+use Stitcher\Exception\ConfigurationException;
+use Stitcher\File;
 
 class MarkdownVariable extends AbstractVariable
 {
@@ -15,14 +17,20 @@ class MarkdownVariable extends AbstractVariable
         $this->parser = $parser;
     }
 
-    public static function create(string $value, Parsedown $parser) : MarkdownVariable
+    public static function make(string $value, Parsedown $parser) : MarkdownVariable
     {
         return new self($value, $parser);
     }
 
     public function parse() : AbstractVariable
     {
-        $this->parsed = $this->parser->parse(@file_get_contents($this->value));
+        $contents = File::get($this->value);
+
+        if (!$contents) {
+            throw ConfigurationException::fileNotFound($this->value);
+        }
+
+        $this->parsed = $this->parser->parse($contents);
 
         return $this;
     }
