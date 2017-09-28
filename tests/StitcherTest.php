@@ -8,6 +8,11 @@ use Symfony\Component\Filesystem\Filesystem;
 
 abstract class StitcherTest extends TestCase
 {
+    protected function getTestDir()
+    {
+        return __DIR__;
+    }
+
     protected function setUp()
     {
         parent::setUp();
