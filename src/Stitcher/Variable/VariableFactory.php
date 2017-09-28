@@ -73,11 +73,13 @@ class VariableFactory extends DynamicFactory
     private function setYamlRule()
     {
         $this->setRule(YamlVariable::class, function (string $value) {
-            if ($this->yamlParser && (
-                    pathinfo($value, PATHINFO_EXTENSION) === 'yaml'
-                    || pathinfo($value, PATHINFO_EXTENSION) === 'yml'
-                )
-            ) {
+            if (!$this->yamlParser) {
+                return null;
+            }
+
+            $extension = pathinfo($value, PATHINFO_EXTENSION);
+
+            if (in_array($extension, ['yaml', 'yml'])) {
                 return YamlVariable::create($value, $this->yamlParser);
             }
 
@@ -109,11 +111,7 @@ class VariableFactory extends DynamicFactory
 
             $extension = pathinfo($value, PATHINFO_EXTENSION);
 
-            if ($extension === 'jpeg'
-                || $extension === 'jpg'
-                || $extension === 'png'
-                || $extension === 'gif'
-            ) {
+            if (in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
                 return ImageVariable::create($value, $this->imageParser);
             }
 
