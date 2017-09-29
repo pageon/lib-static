@@ -2,12 +2,6 @@ build:
     environment:
         php:
             version: 7.1
-    nodes:
-        analysis:
-            project_setup:
-                override: true
-            tests:
-                override: [php-scrutinizer-run]
     tests:
         override:
             -
