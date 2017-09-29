@@ -2,7 +2,7 @@
 
 namespace Stitcher;
 
-abstract class DynamicFactory implements Factory
+abstract class DynamicFactory
 {
     private $rules = [];
 

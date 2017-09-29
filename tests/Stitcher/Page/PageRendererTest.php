@@ -13,22 +13,23 @@ class PageRendererTest extends StitcherTest
     /** @test */
     public function it_can_render_a_page_as_html()
     {
-        $renderer = $this->createPageRenderer();
-        $parser = $this->createPageParser();
-        $page = $parser->parse([
-            'id' => '/',
-            'template' => 'index.twig',
-            'variables' => [
-                'variable' => 'Hello world'
-            ]
-        ]);
-
         $path = File::path('template/index.twig');
         File::put($path, <<<EOT
 {{ variable }}
 EOT
         );
 
+        $parser = $this->createPageParser();
+        $result = $parser->parse([
+            'id' => '/',
+            'template' => 'index.twig',
+            'variables' => [
+                'variable' => 'Hello world'
+            ]
+        ]);
+        $page = reset($result);
+
+        $renderer = $this->createPageRenderer();
         $html = $renderer->render($page);
 
         $this->assertEquals('Hello world', $html);

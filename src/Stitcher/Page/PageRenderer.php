@@ -18,7 +18,7 @@ class PageRenderer
         return new self($renderer);
     }
 
-    public function render(Page $page)
+    public function render(Page $page) : string
     {
         return $this->renderer->renderTemplate($page->getTemplate(), $page->getVariables());
     }

@@ -6,7 +6,7 @@ use Stitcher\Exception\ConfigurationException;
 use Stitcher\Factory;
 use Stitcher\Variable\VariableParser;
 
-class PageFactory implements Factory
+class PageFactory
 {
     private $variableParser;
 

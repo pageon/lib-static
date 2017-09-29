@@ -16,10 +16,22 @@ class PageParser
         return new self($factory);
     }
 
-    public function parse($value) : Page
+    public function parse($inputConfiguration) : array
     {
-        $page = $this->factory->create($value);
+        $result = [];
+        $pageConfiguration = $inputConfiguration['config'] ?? $inputConfiguration['adapters'] ?? [];
 
-        return $page;
+        foreach ($pageConfiguration as $adapterType => $adapterConfiguration) {
+
+        }
+
+        $result[] = $this->parsePage($inputConfiguration);
+
+        return $result;
+    }
+
+    private function parsePage($inputConfiguration) : Page
+    {
+        return $this->factory->create($inputConfiguration);
     }
 }

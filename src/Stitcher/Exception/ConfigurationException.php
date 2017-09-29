@@ -11,6 +11,11 @@ class ConfigurationException extends \Exception
 
     public static function fileNotFound(string $path) : ConfigurationException
     {
-        throw new self("File with path `{$path}` could not be found.");
+        return new self("File with path `{$path}` could not be found.");
+    }
+
+    public static function invalidAdapterConfiguration(string $adapter, string $fields) : ConfigurationException
+    {
+        return new self("The {$adapter} adapter requires following configuration: {$fields}");
     }
 }
