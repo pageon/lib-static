@@ -33,7 +33,7 @@ class CollectionAdapter implements Adapter, Validatory
     {
         $variable = $pageConfiguration['variables'][$this->variable] ?? null;
         $entries = $this->variableParser->parse($variable)['entries'] ?? [];
-        $transformedPageConfiguration = [];
+        $collectionPageConfiguration = [];
 
         foreach ($entries as $entryId => $entry) {
             $entryConfiguration = $pageConfiguration;
@@ -42,10 +42,10 @@ class CollectionAdapter implements Adapter, Validatory
             $entryConfiguration['variables'][$this->variable] = $entry;
             unset($entryConfiguration['config']['collection']);
 
-            $transformedPageConfiguration[$parsedEntryId] = $entryConfiguration;
+            $collectionPageConfiguration[$parsedEntryId] = $entryConfiguration;
         }
 
-        return $transformedPageConfiguration;
+        return $collectionPageConfiguration;
     }
 
     public function isValid($subject) : bool
