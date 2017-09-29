@@ -1,6 +1,6 @@
 <?php
 
-namespace Stitcher\Page\Adapter;
+namespace Stitcher;
 
 interface Adapter
 {
