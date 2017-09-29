@@ -32,18 +32,9 @@ class FilterAdapter implements Adapter, Validatory
         foreach ($this->filters as $variableName => $filterConfiguration) {
             $variable = $pageConfiguration['variables'][$variableName] ?? null;
             $entries = $this->variableParser->parse($variable)['entries'] ?? [];
+            $filteredEntries = $this->filterEntries($filterConfiguration, $entries);
 
-            foreach ($filterConfiguration as $filterField => $filterValue) {
-                foreach ($entries as $entryId => $entry) {
-                    $value = $entry[$filterField] ?? null;
-
-                    if ($value !== $filterValue) {
-                        unset($entries[$entryId]);
-                    }
-                }
-            }
-
-            $pageConfiguration['variables'][$variableName] = $entries;
+            $pageConfiguration['variables'][$variableName] = $filteredEntries;
         }
 
         unset($pageConfiguration['config']['filter']);
@@ -54,5 +45,20 @@ class FilterAdapter implements Adapter, Validatory
     public function isValid($subject) : bool
     {
         return is_array($subject);
+    }
+
+    private function filterEntries($filterConfiguration, $entries)
+    {
+        foreach ($filterConfiguration as $filterField => $filterValue) {
+            foreach ($entries as $entryId => $entry) {
+                $value = $entry[$filterField] ?? null;
+
+                if ($value !== $filterValue) {
+                    unset($entries[$entryId]);
+                }
+            }
+        }
+
+        return $entries;
     }
 }
