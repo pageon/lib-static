@@ -14,6 +14,7 @@ class AdapterFactoryTest extends StitcherTest
         $factory = AdapterFactory::make($this->createVariableParser());
 
         $this->assertInstanceOf(CollectionAdapter::class, $factory->create('collection', ['variable' => 'test', 'parameter' => 'id']));
+        $this->assertInstanceOf(FilterAdapter::class, $factory->create('filter', ['entries' => ['name' => 'A']]));
     }
 
     private function createVariableParser() : VariableParser
