@@ -20,6 +20,11 @@ class Page
         return new self($id, $template, $variables);
     }
 
+    public function getId() : string
+    {
+        return $this->id;
+    }
+
     public function getTemplate() : string
     {
         return $this->template;

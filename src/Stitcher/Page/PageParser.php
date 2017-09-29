@@ -2,36 +2,58 @@
 
 namespace Stitcher\Page;
 
+use Stitcher\Page\Adapter\AdapterFactory;
+
 class PageParser
 {
-    private $factory;
+    private $pageFactory;
+    private $adapterFactory;
 
-    public function __construct(PageFactory $factory)
+    public function __construct(PageFactory $pageFactory, AdapterFactory $adapterFactory)
     {
-        $this->factory = $factory;
+        $this->pageFactory = $pageFactory;
+        $this->adapterFactory = $adapterFactory;
     }
 
-    public static function make(PageFactory $factory) : PageParser
+    public static function make(PageFactory $factory, AdapterFactory $adapterFactory) : PageParser
     {
-        return new self($factory);
+        return new self($factory, $adapterFactory);
     }
 
+    /**
+     * @param $inputConfiguration
+     *
+     * @return Page[]
+     */
     public function parse($inputConfiguration) : array
     {
         $result = [];
-        $pageConfiguration = $inputConfiguration['config'] ?? $inputConfiguration['adapters'] ?? [];
 
-        foreach ($pageConfiguration as $adapterType => $adapterConfiguration) {
+        $adaptedInputConfiguration = $this->parseAdapterConfiguration($inputConfiguration);
+        foreach ($adaptedInputConfiguration as $adaptedPageConfiguration) {
+            $page = $this->parsePage($adaptedPageConfiguration);
 
+            $result[$page->getId()] = $page;
         }
-
-        $result[] = $this->parsePage($inputConfiguration);
 
         return $result;
     }
 
+    private function parseAdapterConfiguration(array $pageConfiguration) : array
+    {
+        $adaptedPageConfiguration = $pageConfiguration;
+        $adapterInputConfiguration = $pageConfiguration['config'] ?? $pageConfiguration['adapters'] ?? [];
+
+        foreach ($adapterInputConfiguration as $adapterType => $adapterConfiguration) {
+            $adapter = $this->adapterFactory->create($adapterType, $adapterConfiguration);
+            $adaptedPageConfiguration = $adapter->transform($adaptedPageConfiguration);
+        }
+
+        return $adaptedPageConfiguration;
+    }
+
     private function parsePage($inputConfiguration) : Page
     {
-        return $this->factory->create($inputConfiguration);
+        return $this->pageFactory->create($inputConfiguration);
     }
 }

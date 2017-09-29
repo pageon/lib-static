@@ -4,6 +4,8 @@ namespace Stitcher\Page;
 
 use Parsedown;
 use Stitcher\File;
+use Stitcher\Page\Adapter\Adapter;
+use Stitcher\Page\Adapter\AdapterFactory;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\VariableFactory;
 use Stitcher\Variable\VariableParser;
@@ -62,34 +64,53 @@ entries:
 EOT
         );
 
-        $parser = PageParser::make($this->createPageFactory());
+        $variableParser = $this->createVariableParser();
+        $parser = PageParser::make(
+            $this->createPageFactory($variableParser),
+            $this->createAdapterFactory($variableParser)
+        );
+
         $result = $parser->parse([
-            'id'        => '/%id%',
+            'id'        => '/{id}',
             'template'  => 'index.twig',
             'variables' => [
                 'entry' => 'entries.yaml',
             ],
-            'config' => [
+            'config'    => [
                 'collection' => [
-                    'field' => 'entry',
+                    'variable'  => 'entry',
                     'parameter' => 'id',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->assertTrue(is_array($result));
-//        $this->assertArrayHasKey('/a', $result);
-//        $this->assertArrayHasKey('/b', $result);
+        $this->assertArrayHasKey('/a', $result);
+        $this->assertArrayHasKey('/b', $result);
+
+        $pageA = $result['/a'];
+        $this->assertEquals('A', $pageA->getVariable('entry')['name']);
+
+        $pageB = $result['/b'];
+        $this->assertEquals('B', $pageB->getVariable('entry')['name']);
     }
 
-    private function createPageFactory() : PageFactory
+    private function createVariableParser() : VariableParser
     {
-        return PageFactory::make(
-            VariableParser::make(
-                VariableFactory::make()
-                    ->setMarkdownParser(new Parsedown())
-                    ->setYamlParser(new Yaml())
-            )
+        return VariableParser::make(
+            VariableFactory::make()
+                ->setMarkdownParser(new Parsedown())
+                ->setYamlParser(new Yaml())
         );
+    }
+
+    private function createPageFactory(VariableParser $variableParser) : PageFactory
+    {
+        return PageFactory::make($variableParser);
+    }
+
+    private function createAdapterFactory(VariableParser $variableParser) : AdapterFactory
+    {
+        return AdapterFactory::make($variableParser);
     }
 }
