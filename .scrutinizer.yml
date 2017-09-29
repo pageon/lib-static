@@ -1,7 +1,7 @@
 build:
     environment:
         php:
-            version: 7.1    
+            version: 7.1
     nodes:
         analysis:
             project_setup:
@@ -19,3 +19,7 @@ checks:
     php:
         code_rating: true
         duplication: true
+
+filter:
+    excluded_paths:
+        - "tests/"
