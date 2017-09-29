@@ -41,15 +41,21 @@ class PageParser
 
     private function parseAdapterConfiguration(array $pageConfiguration) : array
     {
-        $adaptedPageConfiguration = $pageConfiguration;
-        $adapterInputConfiguration = $pageConfiguration['config'] ?? $pageConfiguration['adapters'] ?? [];
+        $result = [$pageConfiguration];
+        $adapterConfigurations = $pageConfiguration['config'] ?? $pageConfiguration['adapters'] ?? [];
 
-        foreach ($adapterInputConfiguration as $adapterType => $adapterConfiguration) {
+        foreach ($adapterConfigurations as $adapterType => $adapterConfiguration) {
             $adapter = $this->adapterFactory->create($adapterType, $adapterConfiguration);
-            $adaptedPageConfiguration = $adapter->transform($adaptedPageConfiguration);
+            $transformedPages = [];
+
+            foreach ($result as $pageToTransform) {
+                $transformedPages = array_merge($transformedPages, $adapter->transform($pageToTransform));
+            }
+
+            $result = $transformedPages;
         }
 
-        return $adaptedPageConfiguration;
+        return $result;
     }
 
     private function parsePage($inputConfiguration) : Page

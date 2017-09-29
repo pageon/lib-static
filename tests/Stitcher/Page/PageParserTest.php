@@ -4,7 +4,6 @@ namespace Stitcher\Page;
 
 use Parsedown;
 use Stitcher\File;
-use Stitcher\Page\Adapter\Adapter;
 use Stitcher\Page\Adapter\AdapterFactory;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\VariableFactory;
@@ -16,7 +15,8 @@ class PageParserTest extends StitcherTest
     /** @test */
     public function it_can_parse_a_page_config()
     {
-        $parser = PageParser::make($this->createPageFactory());
+        $variableParser = $this->createVariableParser();
+        $parser = PageParser::make($this->createPageFactory($variableParser), $this->createAdapterFactory($variableParser));
 
         $result = $parser->parse([
             'id'       => '/',
@@ -37,7 +37,8 @@ class PageParserTest extends StitcherTest
 EOT
         );
 
-        $parser = PageParser::make($this->createPageFactory());
+        $variableParser = $this->createVariableParser();
+        $parser = PageParser::make($this->createPageFactory($variableParser), $this->createAdapterFactory($variableParser));
         $result = $parser->parse([
             'id'        => '/',
             'template'  => 'index.twig',

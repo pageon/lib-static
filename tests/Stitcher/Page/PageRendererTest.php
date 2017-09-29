@@ -3,6 +3,7 @@
 namespace Stitcher\Page;
 
 use Stitcher\File;
+use Stitcher\Page\Adapter\AdapterFactory;
 use Stitcher\Template\TwigRenderer;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\VariableFactory;
@@ -19,13 +20,14 @@ class PageRendererTest extends StitcherTest
 EOT
         );
 
-        $parser = $this->createPageParser();
+        $variableParser = $this->createVariableParser();
+        $parser = $this->createPageParser($variableParser);
         $result = $parser->parse([
-            'id' => '/',
-            'template' => 'index.twig',
+            'id'        => '/',
+            'template'  => 'index.twig',
             'variables' => [
-                'variable' => 'Hello world'
-            ]
+                'variable' => 'Hello world',
+            ],
         ]);
         $page = reset($result);
 
@@ -35,14 +37,18 @@ EOT
         $this->assertEquals('Hello world', $html);
     }
 
-    private function createPageParser() : PageParser
+    private function createVariableParser() : VariableParser
+    {
+        return VariableParser::make(
+            VariableFactory::make()
+        );
+    }
+
+    private function createPageParser(VariableParser $variableParser) : PageParser
     {
         return PageParser::make(
-            PageFactory::make(
-                VariableParser::make(
-                    VariableFactory::make()
-                )
-            )
+            PageFactory::make($variableParser),
+            AdapterFactory::make($variableParser)
         );
     }
 
