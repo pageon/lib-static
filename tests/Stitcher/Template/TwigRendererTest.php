@@ -1,6 +1,6 @@
 <?php
 
-namespace Stitcher\Template;
+namespace Stitcher\Renderer;
 
 use Stitcher\File;
 use Stitcher\Test\StitcherTest;

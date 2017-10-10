@@ -4,7 +4,7 @@ namespace Stitcher\Page;
 
 use Stitcher\File;
 use Stitcher\Page\Adapter\AdapterFactory;
-use Stitcher\Template\TwigRenderer;
+use Stitcher\Renderer\TwigRenderer;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\VariableFactory;
 use Stitcher\Variable\VariableParser;

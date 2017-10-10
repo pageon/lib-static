@@ -2,7 +2,7 @@
 
 namespace Stitcher;
 
-interface TemplateRenderer
+interface Renderer
 {
     public function renderTemplate(string $template, array $variables);
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Stitcher\Template;
+namespace Stitcher\Renderer;
 
-use Stitcher\TemplateRenderer;
+use Stitcher\Renderer;
 use Symfony\Component\Filesystem\Filesystem;
 use Twig_Environment;
 
-class TwigRenderer extends Twig_Environment implements TemplateRenderer
+class TwigRenderer extends Twig_Environment implements Renderer
 {
     public function __construct(string $templateDirectory)
     {

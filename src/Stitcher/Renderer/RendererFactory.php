@@ -1,11 +1,11 @@
 <?php
 
-namespace Stitcher\Template;
+namespace Stitcher\Renderer;
 
 use Stitcher\DynamicFactory;
-use Stitcher\TemplateRenderer;
+use Stitcher\Renderer;
 
-class TemplateRendererFactory extends DynamicFactory
+class RendererFactory extends DynamicFactory
 {
     private $templateDirectory;
 
@@ -16,12 +16,12 @@ class TemplateRendererFactory extends DynamicFactory
         $this->setTwigRule();
     }
 
-    public static function make(string $templateDirectory) : TemplateRendererFactory
+    public static function make(string $templateDirectory) : RendererFactory
     {
         return new self($templateDirectory);
     }
 
-    public function create($value) : ?TemplateRenderer
+    public function create($value) : ?Renderer
     {
         foreach ($this->getRules() as $rule) {
             $templateRenderer = $rule($value);
