@@ -15,7 +15,7 @@ class PageParser
         $this->adapterFactory = $adapterFactory;
     }
 
-    public static function make(PageFactory $factory, AdapterFactory $adapterFactory) : PageParser
+    public static function make(PageFactory $factory, AdapterFactory $adapterFactory): PageParser
     {
         return new self($factory, $adapterFactory);
     }
@@ -25,7 +25,7 @@ class PageParser
      *
      * @return Page[]
      */
-    public function parse($inputConfiguration) : array
+    public function parse($inputConfiguration): array
     {
         $result = [];
 
@@ -33,13 +33,13 @@ class PageParser
         foreach ($adaptedInputConfiguration as $adaptedPageConfiguration) {
             $page = $this->parsePage($adaptedPageConfiguration);
 
-            $result[$page->getId()] = $page;
+            $result[$page->id()] = $page;
         }
 
         return $result;
     }
 
-    private function parseAdapterConfiguration(array $pageConfiguration) : array
+    private function parseAdapterConfiguration(array $pageConfiguration): array
     {
         $result = [$pageConfiguration];
         $adapterConfigurations = $pageConfiguration['config'] ?? $pageConfiguration['adapters'] ?? [];
@@ -58,7 +58,7 @@ class PageParser
         return $result;
     }
 
-    private function parsePage($inputConfiguration) : Page
+    private function parsePage($inputConfiguration): Page
     {
         return $this->pageFactory->create($inputConfiguration);
     }

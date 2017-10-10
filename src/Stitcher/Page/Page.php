@@ -15,27 +15,27 @@ class Page
         $this->variables = $variables;
     }
 
-    public static function make(string $id, string $template, array $variables = []) : Page
+    public static function make(string $id, string $template, array $variables = []): Page
     {
         return new self($id, $template, $variables);
     }
 
-    public function getId() : string
+    public function id(): string
     {
         return $this->id;
     }
 
-    public function getTemplate() : string
+    public function template(): string
     {
         return $this->template;
     }
 
-    public function getVariables() : array
+    public function variables(): array
     {
         return $this->variables;
     }
 
-    public function getVariable(string $name)
+    public function variable(string $name)
     {
         return $this->variables[$name] ?? null;
     }

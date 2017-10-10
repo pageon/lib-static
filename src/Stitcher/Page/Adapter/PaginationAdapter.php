@@ -15,7 +15,7 @@ class PaginationAdapter implements Adapter, Validatory
 
     public function __construct(array $adapterConfiguration, VariableParser $variableParser)
     {
-        if (!$this->isValid($adapterConfiguration)) {
+        if (! $this->isValid($adapterConfiguration)) {
             throw InvalidConfiguration::invalidAdapterConfiguration('pagination', '`variable`, `perPage`');
         }
 
@@ -24,12 +24,12 @@ class PaginationAdapter implements Adapter, Validatory
         $this->variableParser = $variableParser;
     }
 
-    public static function make(array $adapterConfiguration, VariableParser $variableParser) : PaginationAdapter
+    public static function make(array $adapterConfiguration, VariableParser $variableParser): PaginationAdapter
     {
         return new self($adapterConfiguration, $variableParser);
     }
 
-    public function transform(array $pageConfiguration) : array
+    public function transform(array $pageConfiguration): array
     {
         $variable = $pageConfiguration['variables'][$this->variable] ?? null;
         $entries = $this->variableParser->parse($variable)['entries'] ?? [];
@@ -49,12 +49,12 @@ class PaginationAdapter implements Adapter, Validatory
         return $paginationPageConfiguration;
     }
 
-    public function isValid($subject) : bool
+    public function isValid($subject): bool
     {
         return is_array($subject) && isset($subject['variable']);
     }
 
-    private function createEntryConfiguration(array $entryConfiguration, array $entriesForPage, int $pageIndex) : array
+    private function createEntryConfiguration(array $entryConfiguration, array $entriesForPage, int $pageIndex): array
     {
         $paginatedId = rtrim($entryConfiguration['id'], '/') . "/page-{$pageIndex}";
         $entryConfiguration['id'] = $paginatedId;

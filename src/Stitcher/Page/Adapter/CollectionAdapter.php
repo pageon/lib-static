@@ -15,7 +15,7 @@ class CollectionAdapter implements Adapter, Validatory
 
     public function __construct(array $adapterConfiguration, VariableParser $variableParser)
     {
-        if (!$this->isValid($adapterConfiguration)) {
+        if (! $this->isValid($adapterConfiguration)) {
             throw InvalidConfiguration::invalidAdapterConfiguration('collection', '`variable` and `parameter`');
         }
 
@@ -29,7 +29,7 @@ class CollectionAdapter implements Adapter, Validatory
         return new self($adapterConfiguration, $variableParser);
     }
 
-    public function transform(array $pageConfiguration) : array
+    public function transform(array $pageConfiguration): array
     {
         $variable = $pageConfiguration['variables'][$this->variable] ?? null;
         $entries = $this->variableParser->parse($variable)['entries'] ?? [];
@@ -48,7 +48,7 @@ class CollectionAdapter implements Adapter, Validatory
         return $collectionPageConfiguration;
     }
 
-    public function isValid($subject) : bool
+    public function isValid($subject): bool
     {
         return is_array($subject) && isset($subject['variable']) && isset($subject['parameter']);
     }

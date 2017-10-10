@@ -11,7 +11,7 @@ class TwigRenderer extends Twig_Environment implements Renderer
     public function __construct(string $templateDirectory)
     {
         $fs = new Filesystem();
-        if (!$fs->exists($templateDirectory)) {
+        if (! $fs->exists($templateDirectory)) {
             $fs->mkdir($templateDirectory);
         }
 
@@ -20,12 +20,12 @@ class TwigRenderer extends Twig_Environment implements Renderer
         parent::__construct($loader);
     }
 
-    public static function make(string $templateDirectory) : TwigRenderer
+    public static function make(string $templateDirectory): TwigRenderer
     {
         return new self($templateDirectory);
     }
 
-    public function renderTemplate(string $path, array $variables) : string
+    public function renderTemplate(string $path, array $variables): string
     {
         return $this->render($path, $variables);
     }

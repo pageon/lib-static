@@ -4,9 +4,9 @@ namespace Stitcher;
 
 interface Parseable
 {
-    public function parse();
-
-    public function value();
+    public function unparsed();
 
     public function parsed();
+
+    public function parse();
 }

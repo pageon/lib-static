@@ -9,12 +9,12 @@ class File
     private static $fs;
     private static $base;
 
-    public static function base(?string $base)
+    public static function base(?string $base): void
     {
         self::$base = rtrim($base, '/');
     }
 
-    public static function path(string $path = null) : string
+    public static function path(string $path = null): string
     {
         $path = str_replace(self::$base, '', $path);
         $path = ltrim($path, '/');
@@ -23,14 +23,16 @@ class File
         return self::$base . $path;
     }
 
-    public static function read(string $path)
+    public static function read(string $path): ?string
     {
-        return @file_get_contents(self::path($path));
+        $contents = @file_get_contents(self::path($path));
+
+        return $contents ?? null;
     }
 
-    public static function write(string $path, $content = null)
+    public static function write(string $path, $content = null): void
     {
-        if (!self::$fs) {
+        if (! self::$fs) {
             self::$fs = new Filesystem();
         }
 

@@ -16,12 +16,12 @@ class RendererFactory extends DynamicFactory
         $this->setTwigRule();
     }
 
-    public static function make(string $templateDirectory) : RendererFactory
+    public static function make(string $templateDirectory): RendererFactory
     {
         return new self($templateDirectory);
     }
 
-    public function create($value) : ?Renderer
+    public function create($value): ?Renderer
     {
         foreach ($this->getRules() as $rule) {
             $templateRenderer = $rule($value);
@@ -34,7 +34,7 @@ class RendererFactory extends DynamicFactory
         return null;
     }
 
-    private function setTwigRule()
+    private function setTwigRule(): void
     {
         $this->setRule(TwigRenderer::class, function ($value) {
             if ($value === 'twig') {

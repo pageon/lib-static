@@ -13,13 +13,13 @@ class PageRenderer
         $this->renderer = $renderer;
     }
 
-    public static function make(Renderer $renderer) : PageRenderer
+    public static function make(Renderer $renderer): PageRenderer
     {
         return new self($renderer);
     }
 
-    public function render(Page $page) : string
+    public function render(Page $page): string
     {
-        return $this->renderer->renderTemplate($page->getTemplate(), $page->getVariables());
+        return $this->renderer->renderTemplate($page->template(), $page->variables());
     }
 }

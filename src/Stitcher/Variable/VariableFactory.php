@@ -21,33 +21,33 @@ class VariableFactory extends DynamicFactory
         $this->setImageRule();
     }
 
-    public static function make() : VariableFactory
+    public static function make(): VariableFactory
     {
         return new self();
     }
 
-    public function setYamlParser(Yaml $yamlParser) : VariableFactory
+    public function setYamlParser(Yaml $yamlParser): VariableFactory
     {
         $this->yamlParser = $yamlParser;
 
         return $this;
     }
 
-    public function setMarkdownParser(Parsedown $markdownParser) : VariableFactory
+    public function setMarkdownParser(Parsedown $markdownParser): VariableFactory
     {
         $this->markdownParser = $markdownParser;
 
         return $this;
     }
 
-    public function setImageParser(ResponsiveFactory $imageParser) : VariableFactory
+    public function setImageParser(ResponsiveFactory $imageParser): VariableFactory
     {
         $this->imageParser = $imageParser;
 
         return $this;
     }
 
-    public function create($value) : ?AbstractVariable
+    public function create($value): ?AbstractVariable
     {
         foreach ($this->getRules() as $rule) {
             try {
@@ -64,7 +64,7 @@ class VariableFactory extends DynamicFactory
         return null;
     }
 
-    private function setJsonRule() : DynamicFactory
+    private function setJsonRule(): DynamicFactory
     {
         return $this->setRule(JsonVariable::class, function (string $value) {
             if (is_string($value) && pathinfo($value, PATHINFO_EXTENSION) === 'json') {
@@ -75,10 +75,10 @@ class VariableFactory extends DynamicFactory
         });
     }
 
-    private function setYamlRule()
+    private function setYamlRule(): void
     {
         $this->setRule(YamlVariable::class, function (string $value) {
-            if (!$this->yamlParser) {
+            if (! $this->yamlParser) {
                 return null;
             }
 
@@ -92,7 +92,7 @@ class VariableFactory extends DynamicFactory
         });
     }
 
-    private function setMarkdownRule()
+    private function setMarkdownRule(): void
     {
         $this->setRule(MarkdownVariable::class, function (string $value) {
             if ($this->markdownParser && pathinfo($value, PATHINFO_EXTENSION) === 'md') {
@@ -103,10 +103,10 @@ class VariableFactory extends DynamicFactory
         });
     }
 
-    private function setImageRule()
+    private function setImageRule(): void
     {
         $this->setRule(ImageVariable::class, function ($value) {
-            if (!$this->imageParser) {
+            if (! $this->imageParser) {
                 return null;
             }
 

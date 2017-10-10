@@ -11,20 +11,31 @@ class VariableParser
         $this->factory = $factory;
     }
 
-    public static function make(VariableFactory $factory) : VariableParser
+    public static function make(VariableFactory $factory): VariableParser
     {
         return new self($factory);
     }
 
+    /**
+     * @param $value
+     *
+     * @return mixed
+     */
     public function parse($value)
     {
         $variable = $this->factory->create($value);
-        $parsed = $variable ? $variable->parse()->parsed() : $value;
+        $parsed = $variable ? $variable->parsed() : $value;
         $parsed = $this->parseChildren($value, $parsed);
 
         return $parsed;
     }
 
+    /**
+     * @param $value
+     * @param $parsed
+     *
+     * @return mixed
+     */
     private function parseChildren($value, $parsed)
     {
         if (is_array($parsed)) {

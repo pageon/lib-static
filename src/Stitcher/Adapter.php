@@ -4,5 +4,5 @@ namespace Stitcher;
 
 interface Adapter
 {
-    public function transform(array $pageConfiguration) : array;
+    public function transform(array $pageConfiguration): array;
 }

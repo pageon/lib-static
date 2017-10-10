@@ -8,9 +8,9 @@ class ImageVariable extends AbstractVariable
 {
     private $responsiveFactory;
 
-    public function __construct(array $value, ResponsiveFactory $responsiveFactory)
+    public function __construct(array $unparsed, ResponsiveFactory $responsiveFactory)
     {
-        parent::__construct($value);
+        parent::__construct($unparsed);
 
         $this->responsiveFactory = $responsiveFactory;
     }
@@ -28,12 +28,12 @@ class ImageVariable extends AbstractVariable
 
     public function parse() : AbstractVariable
     {
-        $image = $this->responsiveFactory->create($this->value['src']);
+        $image = $this->responsiveFactory->create($this->unparsed['src']);
 
         $this->parsed = [
             'src'    => $image->src(),
             'srcset' => $image->srcset(),
-            'alt'    => $this->value['alt'] ?? null,
+            'alt'    => $this->unparsed['alt'] ?? null,
         ];
 
         return $this;

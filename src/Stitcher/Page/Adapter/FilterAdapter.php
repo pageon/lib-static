@@ -14,7 +14,7 @@ class FilterAdapter implements Adapter, Validatory
 
     public function __construct(array $adapterConfiguration, VariableParser $variableParser)
     {
-        if (!$this->isValid($adapterConfiguration)) {
+        if (! $this->isValid($adapterConfiguration)) {
             throw InvalidConfiguration::invalidAdapterConfiguration('filter', '`field`: `filter`');
         }
 
@@ -22,12 +22,12 @@ class FilterAdapter implements Adapter, Validatory
         $this->variableParser = $variableParser;
     }
 
-    public static function make(array $adapterConfiguration, VariableParser $variableParser) : FilterAdapter
+    public static function make(array $adapterConfiguration, VariableParser $variableParser): FilterAdapter
     {
         return new self($adapterConfiguration, $variableParser);
     }
 
-    public function transform(array $pageConfiguration) : array
+    public function transform(array $pageConfiguration): array
     {
         foreach ($this->filters as $variableName => $filterConfiguration) {
             $variable = $pageConfiguration['variables'][$variableName] ?? null;
@@ -42,12 +42,12 @@ class FilterAdapter implements Adapter, Validatory
         return $pageConfiguration;
     }
 
-    public function isValid($subject) : bool
+    public function isValid($subject): bool
     {
         return is_array($subject);
     }
 
-    private function filterEntries($filterConfiguration, $entries)
+    private function filterEntries($filterConfiguration, $entries): array
     {
         foreach ($filterConfiguration as $filterField => $filterValue) {
             foreach ($entries as $entryId => $entry) {

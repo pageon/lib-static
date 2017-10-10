@@ -10,24 +10,24 @@ class MarkdownVariable extends AbstractVariable
 {
     private $parser;
 
-    public function __construct(string $value, Parsedown $parser)
+    public function __construct(string $unparsed, Parsedown $parser)
     {
-        parent::__construct($value);
+        parent::__construct($unparsed);
 
         $this->parser = $parser;
     }
 
-    public static function make(string $value, Parsedown $parser) : MarkdownVariable
+    public static function make(string $value, Parsedown $parser): MarkdownVariable
     {
         return new self($value, $parser);
     }
 
-    public function parse() : AbstractVariable
+    public function parse(): AbstractVariable
     {
-        $contents = File::read($this->value);
+        $contents = File::read($this->unparsed);
 
-        if (!$contents) {
-            throw InvalidConfiguration::fileNotFound($this->value);
+        if (! $contents) {
+            throw InvalidConfiguration::fileNotFound($this->unparsed);
         }
 
         $this->parsed = $this->parser->parse($contents);

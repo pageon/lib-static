@@ -6,24 +6,30 @@ use Stitcher\Parseable;
 
 abstract class AbstractVariable implements Parseable
 {
-    protected $value;
+    protected $unparsed;
     protected $parsed = null;
 
-    public abstract function parse() : AbstractVariable;
+    public abstract function parse(): AbstractVariable;
 
-    public function __construct($value)
+    public function __construct($unparsed)
     {
-        $this->value = $value;
+        $this->unparsed = $unparsed;
     }
 
-    public function value()
+    /**
+     * @return mixed
+     */
+    public function unparsed()
     {
-        return $this->value;
+        return $this->unparsed;
     }
 
+    /**
+     * @return mixed
+     */
     public function parsed()
     {
-        if (!$this->parsed) {
+        if (! $this->parsed) {
             $this->parse();
         }
 

@@ -3,7 +3,6 @@
 namespace Stitcher\Page;
 
 use Stitcher\Exception\InvalidConfiguration;
-use Stitcher\Factory;
 use Stitcher\Variable\VariableParser;
 
 class PageFactory
@@ -15,18 +14,18 @@ class PageFactory
         $this->variableParser = $variableParser;
     }
 
-    public static function make(VariableParser $variableParser) : PageFactory
+    public static function make(VariableParser $variableParser): PageFactory
     {
         return new self($variableParser);
     }
 
-    public function create($value) : Page
+    public function create($value): Page
     {
         $id = $value['id'] ?? null;
         $template = $value['template'] ?? null;
         $variables = $value['variables'] ?? [];
 
-        if (!$id || !$template) {
+        if (! $id || ! $template) {
             throw InvalidConfiguration::pageIdAndTemplateRequired();
         }
 

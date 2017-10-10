@@ -18,12 +18,12 @@ class AdapterFactory extends DynamicFactory
         $this->variableParser = $variableParser;
     }
 
-    public static function make(VariableParser $variableParser) : AdapterFactory
+    public static function make(VariableParser $variableParser): AdapterFactory
     {
         return new self($variableParser);
     }
 
-    public function create($adapterType, $adapterConfiguration) : ?Adapter
+    public function create($adapterType, $adapterConfiguration): ?Adapter
     {
         foreach ($this->getRules() as $rule) {
             $adapter = $rule($adapterType, $adapterConfiguration);
@@ -36,7 +36,7 @@ class AdapterFactory extends DynamicFactory
         return null;
     }
 
-    private function setCollectionRule()
+    private function setCollectionRule(): void
     {
         $this->setRule(CollectionAdapter::class, function (string $adapterType, array $adapterConfiguration) {
             if ($adapterType === 'collection') {
@@ -47,7 +47,7 @@ class AdapterFactory extends DynamicFactory
         });
     }
 
-    private function setFilterRule()
+    private function setFilterRule(): void
     {
         $this->setRule(FilterAdapter::class, function (string $adapterType, array $adapterConfiguration) {
             if ($adapterType === 'filter') {

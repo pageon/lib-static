@@ -49,8 +49,8 @@ EOT
         ]);
         $page = reset($result);
 
-        $this->assertEquals('Test', $page->getVariable('title'));
-        $this->assertEquals('<h1>Hello world</h1>', $page->getVariable('body'));
+        $this->assertEquals('Test', $page->variable('title'));
+        $this->assertEquals('<h1>Hello world</h1>', $page->variable('body'));
     }
 
     /** @test */
@@ -90,10 +90,10 @@ EOT
         $this->assertArrayHasKey('/b', $result);
 
         $pageA = $result['/a'];
-        $this->assertEquals('A', $pageA->getVariable('entry')['name']);
+        $this->assertEquals('A', $pageA->variable('entry')['name']);
 
         $pageB = $result['/b'];
-        $this->assertEquals('B', $pageB->getVariable('entry')['name']);
+        $this->assertEquals('B', $pageB->variable('entry')['name']);
     }
 
     private function createVariableParser() : VariableParser
