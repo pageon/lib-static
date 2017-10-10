@@ -13,7 +13,7 @@ class JsonVariable extends AbstractVariable
 
     public function parse() : AbstractVariable
     {
-        $this->parsed = json_decode(File::get($this->value), true);
+        $this->parsed = json_decode(File::read($this->value), true);
 
         return $this;
     }

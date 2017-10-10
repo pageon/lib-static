@@ -13,7 +13,7 @@ class PaginationAdapterTest extends StitcherTest
     /** @test */
     public function it_can_transform_a_collection_of_entries_into_multiple_pages()
     {
-        File::put('entries.yaml', <<<EOT
+        File::write('entries.yaml', <<<EOT
 entries:
     a:
         name: A

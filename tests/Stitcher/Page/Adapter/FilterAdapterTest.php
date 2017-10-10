@@ -13,7 +13,7 @@ class FilterAdapterTest extends StitcherTest
     /** @test */
     public function it_can_filter_values()
     {
-        File::put('entries.yaml', <<<EOT
+        File::write('entries.yaml', <<<EOT
 entries:
     a:
         name: A

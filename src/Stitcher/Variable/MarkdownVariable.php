@@ -24,7 +24,7 @@ class MarkdownVariable extends AbstractVariable
 
     public function parse() : AbstractVariable
     {
-        $contents = File::get($this->value);
+        $contents = File::read($this->value);
 
         if (!$contents) {
             throw InvalidConfiguration::fileNotFound($this->value);

@@ -10,7 +10,7 @@ class MarkdownVariableTest extends StitcherTest
     /** @test */
     public function it_can_be_parsed() {
         $path = File::path('/MarkdownVariableTest_test.md');
-        File::put($path, $this->getMarkdown());
+        File::write($path, $this->getMarkdown());
 
         $variable = MarkdownVariable::make($path, new \Parsedown())->parse();
 

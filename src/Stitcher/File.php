@@ -23,12 +23,12 @@ class File
         return self::$base . $path;
     }
 
-    public static function get(string $path)
+    public static function read(string $path)
     {
         return @file_get_contents(self::path($path));
     }
 
-    public static function put(string $path, $content = null)
+    public static function write(string $path, $content = null)
     {
         if (!self::$fs) {
             self::$fs = new Filesystem();

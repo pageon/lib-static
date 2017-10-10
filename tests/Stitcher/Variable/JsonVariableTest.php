@@ -11,7 +11,7 @@ class JsonVariableTest extends StitcherTest
     public function it_can_be_parsed()
     {
         $path = File::path('/JsonVariableTest_test.json');
-        File::put($path, json_encode([
+        File::write($path, json_encode([
             'test' => 'test',
         ]));
 

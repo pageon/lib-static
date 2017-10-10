@@ -14,7 +14,7 @@ class ImageVariableTest extends StitcherTest
     public function it_can_be_parsed()
     {
         $path = File::path('/image_test.jpg');
-        File::put($path, @file_get_contents($this->getTestDir() . '/resources/green.jpg'));
+        File::write($path, @file_get_contents($this->getTestDir() . '/resources/green.jpg'));
 
         $variable = ImageVariable::make('image_test.jpg', $this->createResponsiveFactory())->parse();
 
@@ -30,7 +30,7 @@ class ImageVariableTest extends StitcherTest
     public function it_can_be_parsed_with_alt()
     {
         $path = File::path('/image_test.jpg');
-        File::put($path, @file_get_contents($this->getTestDir() . '/resources/green.jpg'));
+        File::write($path, @file_get_contents($this->getTestDir() . '/resources/green.jpg'));
 
         $variable = ImageVariable::make([
             'src' => 'image_test.jpg',

@@ -12,7 +12,7 @@ class TwigRendererTest extends StitcherTest
     {
         $renderer = TwigRenderer::make(File::path('template'));
         $path = File::path('template/index.twig');
-        File::put($path, <<<EOT
+        File::write($path, <<<EOT
 {{ variable }}
 EOT
         );

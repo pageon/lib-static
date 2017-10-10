@@ -15,7 +15,7 @@ class PageRendererTest extends StitcherTest
     public function it_can_render_a_page_as_html()
     {
         $path = File::path('template/index.twig');
-        File::put($path, <<<EOT
+        File::write($path, <<<EOT
 {{ variable }}
 EOT
         );

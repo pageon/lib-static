@@ -32,7 +32,7 @@ class PageParserTest extends StitcherTest
     public function it_can_parse_variables()
     {
         $markdownPath = File::path('test.md');
-        File::put($markdownPath, <<<EOT
+        File::write($markdownPath, <<<EOT
 # Hello world
 EOT
         );
@@ -56,7 +56,7 @@ EOT
     /** @test */
     public function it_can_parse_a_collection_of_pages()
     {
-        File::put('entries.yaml', <<<EOT
+        File::write('entries.yaml', <<<EOT
 entries:
     a:
         name: A

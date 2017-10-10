@@ -23,7 +23,7 @@ class YamlVariable extends AbstractVariable
 
     public function parse() : AbstractVariable
     {
-        $this->parsed = $this->parser->parse(File::get($this->value));
+        $this->parsed = $this->parser->parse(File::read($this->value));
 
         return $this;
     }
