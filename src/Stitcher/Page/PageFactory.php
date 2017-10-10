@@ -2,7 +2,7 @@
 
 namespace Stitcher\Page;
 
-use Stitcher\Exception\ConfigurationException;
+use Stitcher\Exception\InvalidConfiguration;
 use Stitcher\Factory;
 use Stitcher\Variable\VariableParser;
 
@@ -27,7 +27,7 @@ class PageFactory
         $variables = $value['variables'] ?? [];
 
         if (!$id || !$template) {
-            throw ConfigurationException::pageIdAndTemplateRequired();
+            throw InvalidConfiguration::pageIdAndTemplateRequired();
         }
 
         foreach ($variables as $key => $variable) {

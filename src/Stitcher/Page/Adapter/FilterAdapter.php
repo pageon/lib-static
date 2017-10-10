@@ -3,7 +3,7 @@
 namespace Stitcher\Page\Adapter;
 
 use Stitcher\Adapter;
-use Stitcher\Exception\ConfigurationException;
+use Stitcher\Exception\InvalidConfiguration;
 use Stitcher\Validatory;
 use Stitcher\Variable\VariableParser;
 
@@ -15,7 +15,7 @@ class FilterAdapter implements Adapter, Validatory
     public function __construct(array $adapterConfiguration, VariableParser $variableParser)
     {
         if (!$this->isValid($adapterConfiguration)) {
-            throw ConfigurationException::invalidAdapterConfiguration('filter', '`field`: `filter`');
+            throw InvalidConfiguration::invalidAdapterConfiguration('filter', '`field`: `filter`');
         }
 
         $this->filters = $adapterConfiguration;

@@ -3,7 +3,7 @@
 namespace Stitcher\Variable;
 
 use Parsedown;
-use Stitcher\Exception\ConfigurationException;
+use Stitcher\Exception\InvalidConfiguration;
 use Stitcher\File;
 
 class MarkdownVariable extends AbstractVariable
@@ -27,7 +27,7 @@ class MarkdownVariable extends AbstractVariable
         $contents = File::get($this->value);
 
         if (!$contents) {
-            throw ConfigurationException::fileNotFound($this->value);
+            throw InvalidConfiguration::fileNotFound($this->value);
         }
 
         $this->parsed = $this->parser->parse($contents);

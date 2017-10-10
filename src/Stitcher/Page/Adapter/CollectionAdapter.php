@@ -3,7 +3,7 @@
 namespace Stitcher\Page\Adapter;
 
 use Stitcher\Adapter;
-use Stitcher\Exception\ConfigurationException;
+use Stitcher\Exception\InvalidConfiguration;
 use Stitcher\Validatory;
 use Stitcher\Variable\VariableParser;
 
@@ -16,7 +16,7 @@ class CollectionAdapter implements Adapter, Validatory
     public function __construct(array $adapterConfiguration, VariableParser $variableParser)
     {
         if (!$this->isValid($adapterConfiguration)) {
-            throw ConfigurationException::invalidAdapterConfiguration('collection', '`variable` and `parameter`');
+            throw InvalidConfiguration::invalidAdapterConfiguration('collection', '`variable` and `parameter`');
         }
 
         $this->variable = $adapterConfiguration['variable'];
