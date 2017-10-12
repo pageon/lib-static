@@ -2,7 +2,7 @@
 
 namespace Pageon\Html\Image;
 
-use Intervention\Image\Image;
+use Intervention\Image\Image as ScaleableImage;
 
 class FixedWidthScaler implements Scaler
 {
@@ -18,7 +18,7 @@ class FixedWidthScaler implements Scaler
         return new self($fixedWidths);
     }
 
-    public function getVariations(Image $scaleableImage): array
+    public function getVariations(ScaleableImage $scaleableImage): array
     {
         $width = $scaleableImage->getWidth();
         $height = $scaleableImage->getHeight();

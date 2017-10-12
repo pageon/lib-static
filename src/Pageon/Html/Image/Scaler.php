@@ -2,9 +2,9 @@
 
 namespace Pageon\Html\Image;
 
-use Intervention\Image\Image;
+use Intervention\Image\Image as ScaleableImage;
 
 interface Scaler
 {
-    public function getVariations(Image $scaleableImage) : array;
+    public function getVariations(ScaleableImage $scaleableImage) : array;
 }

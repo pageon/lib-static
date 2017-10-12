@@ -2,6 +2,7 @@
 
 namespace Pageon\Html\Image;
 
+use Intervention\Image\Image as ScaleableImage;
 use Intervention\Image\ImageManager;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -70,16 +71,25 @@ class Image
         krsort($variations, SORT_DESC);
 
         foreach ($variations as $width => $height) {
-            $scaledFileName = $this->createScaledFileName($width, $height);
-
-            $scaleableImage
-                ->resize($width, $height)
-                ->save("{$publicDirectory}/{$scaledFileName}");
-
-            $this->addSrcset($scaledFileName, $width);
+            $this->createScaledImage($publicDirectory, $width, $height, $scaleableImage);
         }
 
         return $this;
+    }
+
+    private function createScaledImage(
+        string $publicDirectory,
+        int $width,
+        int $height,
+        ScaleableImage $scaleableImage
+    ) {
+        $scaledFileName = $this->createScaledFileName($width, $height);
+
+        $scaleableImage
+            ->resize($width, $height)
+            ->save("{$publicDirectory}/{$scaledFileName}");
+
+        $this->addSrcset($scaledFileName, $width);
     }
 
     private function createScaledFileName(int $width, int $height): string
