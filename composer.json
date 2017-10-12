@@ -14,7 +14,8 @@
     },
     "autoload" : {
         "psr-4" : {
-            "Stitcher\\" : "src/Stitcher"
+            "Stitcher\\" : "src/Stitcher",
+            "Pageon\\": "src/Pageon"
         }
     },
     "autoload-dev": {
