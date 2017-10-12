@@ -40,6 +40,8 @@ class RendererFactory extends DynamicFactory
             if ($value === 'twig') {
                 return TwigRenderer::make($this->templateDirectory);
             }
+
+            return null;
         });
     }
 }
