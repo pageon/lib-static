@@ -25,6 +25,12 @@ class File
 
     public static function read(string $path): ?string
     {
+        $path = self::path($path);
+
+        if (! file_exists(self::path($path))) {
+            return null;
+        }
+
         $contents = @file_get_contents(self::path($path));
 
         return $contents ?? null;
