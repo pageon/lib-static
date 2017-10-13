@@ -19,7 +19,6 @@ class Meta
     private $meta = [];
     /** @var SocialMeta[] */
     private $socialMeta = [];
-    private $truncate;
 
     final public function __construct(string $charset = 'UTF-8') {
         $this->charset($charset);
@@ -57,42 +56,66 @@ class Meta
         return $this;
     }
 
-    public function name(string $name, string $content) : Meta {
+    public function name(string $name, ?string $content) : Meta {
+        if (!$content) {
+            return $this;
+        }
+
         $item = NameMeta::create($name, $content);
         $this->meta['name'][$name] = $item;
 
         return $this;
     }
 
-    public function itemprop(string $name, string $content) : Meta {
+    public function itemprop(string $name, ?string $content) : Meta {
+        if (!$content) {
+            return $this;
+        }
+
         $item = ItemPropMeta::create($name, $content);
         $this->meta['itemprop'][$name] = $item;
 
         return $this;
     }
 
-    public function property(string $property, string $content) : Meta {
+    public function property(string $property, ?string $content) : Meta {
+        if (!$content) {
+            return $this;
+        }
+
         $item = PropertyMeta::create($property, $content);
         $this->meta['property'][$property] = $item;
 
         return $this;
     }
 
-    public function httpEquiv(string $httpEquiv, string $content) : Meta {
+    public function httpEquiv(string $httpEquiv, ?string $content) : Meta {
+        if (!$content) {
+            return $this;
+        }
+
         $item = HttpEquivMeta::create($httpEquiv, $content);
         $this->meta['httpEquiv'][$httpEquiv] = $item;
 
         return $this;
     }
 
-    public function link(string $rel, string $href) : Meta {
+    public function link(string $rel, ?string $href) : Meta {
+        if (!$href) {
+            return $this;
+        }
+
         $item = LinkMeta::create($rel, $href);
         $this->meta['link'][$rel] = $item;
 
         return $this;
     }
 
-    public function title(string $content) : Meta {
+    public function title(?string $content) : Meta {
+        if (!$content) {
+            return $this;
+        }
+
         $this->name('title', $content);
 
         foreach ($this->socialMeta as $socialMeta) {
@@ -102,7 +125,11 @@ class Meta
         return $this;
     }
 
-    public function description(string $content) : Meta {
+    public function description(?string $content) : Meta {
+        if (!$content) {
+            return $this;
+        }
+
         $this->name('description', $content);
 
         foreach ($this->socialMeta as $socialMeta) {
@@ -112,18 +139,16 @@ class Meta
         return $this;
     }
 
-    public function image(string $content) : Meta {
+    public function image(?string $content) : Meta {
+        if (!$content) {
+            return $this;
+        }
+
         $this->name('image', $content);
 
         foreach ($this->socialMeta as $socialMeta) {
             $socialMeta->image($content);
         }
-
-        return $this;
-    }
-
-    public function setTruncate(int $truncate = null) : Meta {
-        $this->truncate = $truncate;
 
         return $this;
     }
