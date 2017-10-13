@@ -9,24 +9,20 @@ use PHPUnit\Framework\TestCase;
 class OpenGraphMetaTest extends TestCase
 {
 
-    /**
-     * @var Meta
-     */
+    /** @var Meta */
     private $meta;
 
     protected function setUp() {
         $this->meta = new Meta();
     }
 
-    private function getSocialMeta() : SocialMeta {
+    private function createSocialMeta() : SocialMeta {
         return new OpenGraphMeta($this->meta);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_render_the_title() {
-        $social = $this->getSocialMeta();
+        $social = $this->createSocialMeta();
 
         $social->title('hello');
 
@@ -34,22 +30,18 @@ class OpenGraphMetaTest extends TestCase
         $this->assertContains('<meta property="og:type" content="article">', $this->meta->render());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_render_the_description() {
-        $social = $this->getSocialMeta();
+        $social = $this->createSocialMeta();
 
         $social->description('hello');
 
         $this->assertContains('<meta property="og:description" content="hello">', $this->meta->render());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_render_the_image() {
-        $social = $this->getSocialMeta();
+        $social = $this->createSocialMeta();
 
         $social->image('hello');
 

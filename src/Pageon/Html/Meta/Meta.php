@@ -8,49 +8,32 @@ use Pageon\Html\Meta\Item\HttpEquivMeta;
 use Pageon\Html\Meta\Item\ItemPropMeta;
 use Pageon\Html\Meta\Item\LinkMeta;
 use Pageon\Html\Meta\Item\NameMeta;
-use Pageon\Html\Meta\Config\MetaConfigurator;
 use Pageon\Html\Meta\Item\PropertyMeta;
+use Pageon\Html\Meta\Social\GooglePlusMeta;
+use Pageon\Html\Meta\Social\OpenGraphMeta;
+use Pageon\Html\Meta\Social\TwitterMeta;
 
 class Meta
 {
-    /**
-     * @var MetaItem[]
-     */
+    /** @var MetaItem[] */
     private $meta = [];
-
-    /**
-     * @var SocialMeta[]
-     */
+    /** @var SocialMeta[] */
     private $socialMeta = [];
-
-    /**
-     * @var int
-     */
     private $truncate;
 
-    /**
-     * Meta constructor.
-     *
-     * @param MetaConfigurator $configurator
-     */
-    final public function __construct(MetaConfigurator $configurator = null) {
-        $configurator = $configurator ?? new DefaultConfigurator();
-
-        $configurator->configure($this);
+    final public function __construct(string $charset = 'UTF-8') {
+        $this->charset($charset);
+        $this->socialMeta = [
+            new GooglePlusMeta($this),
+            new TwitterMeta($this),
+            new OpenGraphMeta($this),
+        ];
     }
 
-    /**
-     * @param MetaConfigurator $configurator
-     *
-     * @return Meta
-     */
-    public static function create(MetaConfigurator $configurator = null) : Meta {
-        return new self($configurator);
+    public static function create(string $charset = 'UTF-8') : Meta {
+        return new self($charset);
     }
 
-    /**
-     * @return string
-     */
     public function render() : string {
         $html = '';
 
@@ -67,11 +50,6 @@ class Meta
         return $html;
     }
 
-    /**
-     * @param $charset
-     *
-     * @return Meta
-     */
     public function charset(string $charset) : Meta {
         $item = CharsetMeta::create($charset);
         $this->meta['charset'][] = $item;
@@ -79,12 +57,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @param string $content
-     *
-     * @return Meta
-     */
     public function name(string $name, string $content) : Meta {
         $item = NameMeta::create($name, $content);
         $this->meta['name'][$name] = $item;
@@ -92,12 +64,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @param string $content
-     *
-     * @return Meta
-     */
     public function itemprop(string $name, string $content) : Meta {
         $item = ItemPropMeta::create($name, $content);
         $this->meta['itemprop'][$name] = $item;
@@ -105,12 +71,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $property
-     * @param string $content
-     *
-     * @return Meta
-     */
     public function property(string $property, string $content) : Meta {
         $item = PropertyMeta::create($property, $content);
         $this->meta['property'][$property] = $item;
@@ -118,12 +78,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $httpEquiv
-     * @param string $content
-     *
-     * @return Meta
-     */
     public function httpEquiv(string $httpEquiv, string $content) : Meta {
         $item = HttpEquivMeta::create($httpEquiv, $content);
         $this->meta['httpEquiv'][$httpEquiv] = $item;
@@ -131,12 +85,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $rel
-     * @param string $href
-     *
-     * @return Meta
-     */
     public function link(string $rel, string $href) : Meta {
         $item = LinkMeta::create($rel, $href);
         $this->meta['link'][$rel] = $item;
@@ -144,11 +92,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $content
-     *
-     * @return Meta
-     */
     public function title(string $content) : Meta {
         $this->name('title', $content);
 
@@ -159,11 +102,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $content
-     *
-     * @return Meta
-     */
     public function description(string $content) : Meta {
         $this->name('description', $content);
 
@@ -174,11 +112,6 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param string $content
-     *
-     * @return Meta
-     */
     public function image(string $content) : Meta {
         $this->name('image', $content);
 
@@ -189,24 +122,8 @@ class Meta
         return $this;
     }
 
-    /**
-     * @param int $truncate
-     *
-     * @return Meta
-     */
     public function setTruncate(int $truncate = null) : Meta {
         $this->truncate = $truncate;
-
-        return $this;
-    }
-
-    /**
-     * @param SocialMeta[] $socialMeta
-     *
-     * @return Meta
-     */
-    public function setSocialMeta(array $socialMeta) : Meta {
-        $this->socialMeta = $socialMeta;
 
         return $this;
     }
