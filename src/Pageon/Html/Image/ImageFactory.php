@@ -11,6 +11,7 @@ class ImageFactory
     private $scaler;
     private $sourceDirectory;
     private $publicDirectory;
+    private $imageManager;
 
     public function __construct(
         string $sourceDirectory,
@@ -20,6 +21,9 @@ class ImageFactory
         $this->sourceDirectory = rtrim($sourceDirectory, '/');
         $this->publicDirectory = rtrim($publicDirectory, '/');
         $this->scaler = $scaler;
+        $this->imageManager = new ImageManager([
+            'driver' => 'gd',
+        ]);
     }
 
     public static function make(
@@ -36,18 +40,11 @@ class ImageFactory
         $srcPath = ltrim($src, '/');
         $image = Image::make($srcPath);
 
-        $fs = new Filesystem();
-        $imageManager = new ImageManager([
-            'driver' => 'gd',
-        ]);
-
-        $fs->copy("{$this->sourceDirectory}/{$srcPath}", "{$this->publicDirectory}/{$srcPath}");
-
-        $scaleableImage = $imageManager->make("{$this->publicDirectory}/{$srcPath}");
-        $image->addSrcset($image->src(), $scaleableImage->getWidth());
+        $this->copySourceImageToDestination($srcPath);
+        $scaleableImage = $this->imageManager->make("{$this->publicDirectory}/{$srcPath}");
 
         $variations = $this->scaler->getVariations($scaleableImage);
-        krsort($variations, SORT_DESC);
+        $image->addSrcset($image->src(), $scaleableImage->getWidth());
 
         foreach ($variations as $width => $height) {
             $this->createScaledImage($image, $width, $height, $scaleableImage);
@@ -62,9 +59,10 @@ class ImageFactory
         int $height,
         ScaleableImage $scaleableImage
     ) {
+        $scaleableImageClone = clone $scaleableImage;
         $scaledFileName = $this->createScaledFileName($image, $width, $height);
 
-        $scaleableImage
+        $scaleableImageClone
             ->resize($width, $height)
             ->save("{$this->publicDirectory}/{$scaledFileName}");
 
@@ -77,5 +75,11 @@ class ImageFactory
         $extension = pathinfo($srcPath, PATHINFO_EXTENSION);
 
         return str_replace(".{$extension}", "-{$width}x{$height}.{$extension}", $srcPath);
+    }
+
+    private function copySourceImageToDestination(string $srcPath): void
+    {
+        $fs = new Filesystem();
+        $fs->copy("{$this->sourceDirectory}/{$srcPath}", "{$this->publicDirectory}/{$srcPath}");
     }
 }
