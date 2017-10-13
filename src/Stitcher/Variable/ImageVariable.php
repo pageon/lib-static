@@ -2,20 +2,20 @@
 
 namespace Stitcher\Variable;
 
-use Brendt\Image\ResponsiveFactory;
+use Pageon\Html\Image\ImageFactory;
 
 class ImageVariable extends AbstractVariable
 {
-    private $responsiveFactory;
+    private $imageFactory;
 
-    public function __construct(array $unparsed, ResponsiveFactory $responsiveFactory)
+    public function __construct(array $unparsed, ImageFactory $imageFactory)
     {
         parent::__construct($unparsed);
 
-        $this->responsiveFactory = $responsiveFactory;
+        $this->imageFactory = $imageFactory;
     }
 
-    public static function make($value, ResponsiveFactory $responsiveFactory) : ImageVariable
+    public static function make($value, ImageFactory $imageFactory) : ImageVariable
     {
         if (is_string($value)) {
             $value = [
@@ -23,12 +23,12 @@ class ImageVariable extends AbstractVariable
             ];
         }
 
-        return new self($value, $responsiveFactory);
+        return new self($value, $imageFactory);
     }
 
     public function parse() : AbstractVariable
     {
-        $image = $this->responsiveFactory->create($this->unparsed['src']);
+        $image = $this->imageFactory->create($this->unparsed['src']);
 
         $this->parsed = [
             'src'    => $image->src(),

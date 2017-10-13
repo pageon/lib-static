@@ -2,7 +2,7 @@
 
 namespace Stitcher\Variable;
 
-use Brendt\Image\ResponsiveFactory;
+use Pageon\Html\Image\ImageFactory;
 use Parsedown;
 use Stitcher\DynamicFactory;
 use Symfony\Component\Yaml\Yaml;
@@ -40,7 +40,7 @@ class VariableFactory extends DynamicFactory
         return $this;
     }
 
-    public function setImageParser(ResponsiveFactory $imageParser): VariableFactory
+    public function setImageParser(ImageFactory $imageParser): VariableFactory
     {
         $this->imageParser = $imageParser;
 

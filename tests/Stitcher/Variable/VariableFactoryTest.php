@@ -2,8 +2,8 @@
 
 namespace Stitcher\Test\Stitcher\Variable;
 
-use Brendt\Image\Config\DefaultConfigurator;
-use Brendt\Image\ResponsiveFactory;
+use Pageon\Html\Image\FixedWidthScaler;
+use Pageon\Html\Image\ImageFactory;
 use Stitcher\File;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\ImageVariable;
@@ -21,7 +21,7 @@ class VariableFactoryTest extends StitcherTest
         $factory = VariableFactory::make()
             ->setYamlParser(new Yaml())
             ->setMarkdownParser(new \Parsedown())
-            ->setImageParser($this->createResponsiveFactory());
+            ->setImageParser($this->createImageFactory());
 
         $this->assertInstanceOf(JsonVariable::class, $factory->create('test.json'));
         $this->assertInstanceOf(YamlVariable::class, $factory->create('test.yaml'));
@@ -36,11 +36,12 @@ class VariableFactoryTest extends StitcherTest
         ]));
     }
 
-    private function createResponsiveFactory() : ResponsiveFactory
+    private function createImageFactory(): ImageFactory
     {
-        return new ResponsiveFactory(new DefaultConfigurator([
-            'sourcePath' => File::path(),
-            'publicPath' => File::path('/public'),
+        $public = File::path('public');
+
+        return ImageFactory::make(__DIR__ . '/../../', $public, FixedWidthScaler::make([
+            300, 500,
         ]));
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Stitcher\Variable;
 
-use Brendt\Image\Config\DefaultConfigurator;
-use Brendt\Image\ResponsiveFactory;
+use Pageon\Html\Image\FixedWidthScaler;
+use Pageon\Html\Image\ImageFactory;
 use Parsedown;
 use Stitcher\File;
 use Stitcher\Test\StitcherTest;
@@ -45,16 +45,17 @@ EOT
         $factory = VariableFactory::make()
             ->setMarkdownParser(new Parsedown())
             ->setYamlParser(new Yaml())
-            ->setImageParser($this->createResponsiveFactory());
+            ->setImageParser($this->createImageFactory());
 
         return $factory;
     }
 
-    private function createResponsiveFactory() : ResponsiveFactory
+    private function createImageFactory(): ImageFactory
     {
-        return new ResponsiveFactory(new DefaultConfigurator([
-            'sourcePath' => File::path(),
-            'publicPath' => File::path('/public'),
+        $public = File::path('public');
+
+        return ImageFactory::make(__DIR__ . '/../../', $public, FixedWidthScaler::make([
+            300, 500,
         ]));
     }
 
