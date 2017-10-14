@@ -31,14 +31,11 @@ class PaginationAdapter implements Adapter, Validatory
 
     public function transform(array $pageConfiguration): array
     {
-        $variable = $pageConfiguration['variables'][$this->variable] ?? null;
-        $entries = $this->variableParser->parse($variable)['entries'] ?? $variable;
         $paginationPageConfiguration = [];
-
+        $entries = $this->getEntries($pageConfiguration);
         $pageCount = (int) ceil(count($entries) / $this->perPage);
-        $pageIndex = 1;
 
-        while ($pageIndex <= $pageCount) {
+        for ($pageIndex = 1; $pageIndex <= $pageCount; $pageIndex++) {
             $entriesForPage = array_splice($entries, 0, $this->perPage);
 
             $entryConfiguration = $this->createEntryConfiguration(
@@ -49,8 +46,6 @@ class PaginationAdapter implements Adapter, Validatory
             );
 
             $paginationPageConfiguration[$entryConfiguration['id']] = $entryConfiguration;
-
-            $pageIndex += 1;
         }
 
         return $paginationPageConfiguration;
@@ -61,7 +56,15 @@ class PaginationAdapter implements Adapter, Validatory
         return is_array($subject) && isset($subject['variable']);
     }
 
-    private function createEntryConfiguration(
+    protected function getEntries(array $pageConfiguration): ?array
+    {
+        $variable = $pageConfiguration['variables'][$this->variable] ?? null;
+        $entries = $this->variableParser->parse($variable)['entries'] ?? $variable;
+
+        return $entries;
+    }
+
+    protected function createEntryConfiguration(
         array $entryConfiguration,
         array $entriesForPage,
         int $pageIndex,
@@ -81,7 +84,7 @@ class PaginationAdapter implements Adapter, Validatory
         return $entryConfiguration;
     }
 
-    private function createPaginationVariable(string $pageId, int $pageIndex, int $pageCount): array
+    protected function createPaginationVariable(string $pageId, int $pageIndex, int $pageCount): array
     {
         return [
             'current'  => $pageIndex,
@@ -91,7 +94,7 @@ class PaginationAdapter implements Adapter, Validatory
         ];
     }
 
-    private function createPreviousPagination(string $pageId, int $pageIndex): ?array
+    protected function createPreviousPagination(string $pageId, int $pageIndex): ?array
     {
         if ($pageIndex <= 1) {
             return null;
@@ -105,7 +108,7 @@ class PaginationAdapter implements Adapter, Validatory
         ];
     }
 
-    private function createNextPagination(string $pageId, int $pageIndex, int $pageCount): ?array
+    protected function createNextPagination(string $pageId, int $pageIndex, int $pageCount): ?array
     {
         if ($pageIndex >= $pageCount) {
             return null;
