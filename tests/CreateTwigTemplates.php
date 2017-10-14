@@ -3,19 +3,14 @@
 namespace Stitcher\Test;
 
 use Stitcher\File;
+use Symfony\Component\Filesystem\Filesystem;
 
 trait CreateTwigTemplates
 {
     protected function createIndexTemplate(): void
     {
-        File::write('template/index.twig', <<<EOT
-<html>
-    <head>
-    </head>
-    <body>
-    </body>
-</html>
-EOT
-        );
+        $fs = new Filesystem();
+
+        $fs->copy(__DIR__ . '/resources/twig/index.twig', File::path('template/index.twig'));
     }
 }

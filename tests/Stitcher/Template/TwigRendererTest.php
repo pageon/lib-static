@@ -3,24 +3,23 @@
 namespace Stitcher\Renderer;
 
 use Stitcher\File;
+use Stitcher\Test\CreateTwigTemplates;
 use Stitcher\Test\StitcherTest;
 
 class TwigRendererTest extends StitcherTest
 {
+    use CreateTwigTemplates;
+
     /** @test */
     public function it_can_render_a_template()
     {
         $renderer = TwigRenderer::make(File::path('template'));
-        $path = File::path('template/index.twig');
-        File::write($path, <<<EOT
-{{ variable }}
-EOT
-        );
+        $this->createIndexTemplate();
 
         $html = $renderer->renderTemplate('index.twig', [
             'variable' => 'hello world'
         ]);
 
-        $this->assertEquals('hello world', $html);
+        $this->assertContains('hello world', $html);
     }
 }

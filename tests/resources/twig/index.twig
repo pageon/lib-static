@@ -1,0 +1,12 @@
+<html>
+<head>
+    {% if meta is defined %}
+        {{ meta.render()|raw }}
+    {% endif %}
+</head>
+<body>
+    {% if variable is defined %}
+        {{ variable }}
+    {% endif %}
+</body>
+</html>
