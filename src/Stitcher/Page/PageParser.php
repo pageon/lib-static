@@ -24,8 +24,8 @@ class PageParser
     public function parse($inputConfiguration): Collection
     {
         $result = [];
-
         $adaptedInputConfiguration = $this->parseAdapterConfiguration($inputConfiguration);
+
         foreach ($adaptedInputConfiguration as $adaptedPageConfiguration) {
             $page = $this->parsePage($adaptedPageConfiguration);
 
