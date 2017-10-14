@@ -16,10 +16,7 @@ class Page
         $this->id = $id;
         $this->template = $template;
         $this->variables = $variables;
-
-        $this->meta = Meta::create()
-            ->title($variables['meta']['title'] ?? $variables['title'] ?? null)
-            ->description($variables['meta']['description'] ?? $variables['description'] ?? null);
+        $this->setMeta();
     }
 
     public static function make(string $id, string $template, array $variables = []): Page
@@ -50,5 +47,15 @@ class Page
     public function meta()
     {
         return $this->meta;
+    }
+
+    private function setMeta()
+    {
+        $this->meta = Meta::create()
+            ->title($this->variables['meta']['title'] ?? $this->variables['title'] ?? null)
+            ->description($this->variables['meta']['description'] ?? $this->variables['description'] ?? null)
+            ->link('next', $this->variables['pagination']['next']['url'] ?? null)
+            ->link('prev', $this->variables['pagination']['previous']['url'] ?? null)
+        ;
     }
 }

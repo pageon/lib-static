@@ -32,7 +32,7 @@ class PaginationAdapter implements Adapter, Validatory
     public function transform(array $pageConfiguration): array
     {
         $variable = $pageConfiguration['variables'][$this->variable] ?? null;
-        $entries = $this->variableParser->parse($variable)['entries'] ?? [];
+        $entries = $this->variableParser->parse($variable)['entries'] ?? $variable;
         $paginationPageConfiguration = [];
 
         $pageCount = (int) ceil(count($entries) / $this->perPage);
@@ -40,9 +40,16 @@ class PaginationAdapter implements Adapter, Validatory
 
         while ($pageIndex <= $pageCount) {
             $entriesForPage = array_splice($entries, 0, $this->perPage);
-            $entryConfiguration = $this->createEntryConfiguration($pageConfiguration, $entriesForPage, $pageIndex);
+
+            $entryConfiguration = $this->createEntryConfiguration(
+                $pageConfiguration,
+                $entriesForPage,
+                $pageIndex,
+                $pageCount
+            );
 
             $paginationPageConfiguration[$entryConfiguration['id']] = $entryConfiguration;
+
             $pageIndex += 1;
         }
 
@@ -54,13 +61,45 @@ class PaginationAdapter implements Adapter, Validatory
         return is_array($subject) && isset($subject['variable']);
     }
 
-    private function createEntryConfiguration(array $entryConfiguration, array $entriesForPage, int $pageIndex): array
-    {
-        $paginatedId = rtrim($entryConfiguration['id'], '/') . "/page-{$pageIndex}";
+    private function createEntryConfiguration(
+        array $entryConfiguration,
+        array $entriesForPage,
+        int $pageIndex,
+        int $pageCount
+    ): array {
+        $pageId = rtrim($entryConfiguration['id'], '/');
+        $paginatedId = "{$pageId}/page-{$pageIndex}";
+
         $entryConfiguration['id'] = $paginatedId;
         $entryConfiguration['variables'][$this->variable] = $entriesForPage;
+
+        $paginationVariable = $this->createPaginationVariable($pageId, $pageIndex, $pageCount);
+        $entryConfiguration['variables']['pagination'] = $paginationVariable;
+
         unset($entryConfiguration['config']['pagination']);
 
         return $entryConfiguration;
+    }
+
+    private function createPaginationVariable(string $pageId, int $pageIndex, int $pageCount): array
+    {
+        $next =  $pageIndex < $pageCount ? $pageIndex + 1 : null;
+        $nextUrl = $next ? "{$pageId}/page-{$next}" : null;
+
+        $previous = $pageIndex > 1 ? $pageIndex - 1 : null;
+        $previousUrl = $previous ? "{$pageId}/page-{$previous}" : null;
+
+        return [
+            'current'  => $pageIndex,
+            'previous' => $previous ? [
+                'url'   => $previousUrl,
+                'index' => $previous,
+            ] : null,
+            'next'     => $next ? [
+                'url'   => $nextUrl,
+                'index' => $next,
+            ] : null,
+            'pages'    => $pageCount,
+        ];
     }
 }

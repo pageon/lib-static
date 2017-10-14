@@ -2,7 +2,6 @@
 
 namespace Stitcher\Test\Stitcher\Integration;
 
-use Stitcher\File;
 use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
 use Symfony\Component\Yaml\Yaml;
