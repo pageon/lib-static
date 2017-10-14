@@ -2,6 +2,7 @@
 
 namespace Stitcher\Page;
 
+use Illuminate\Support\Collection;
 use Stitcher\Page\Adapter\AdapterFactory;
 
 class PageParser
@@ -20,12 +21,7 @@ class PageParser
         return new self($factory, $adapterFactory);
     }
 
-    /**
-     * @param $inputConfiguration
-     *
-     * @return Page[]
-     */
-    public function parse($inputConfiguration): array
+    public function parse($inputConfiguration): Collection
     {
         $result = [];
 
@@ -36,7 +32,7 @@ class PageParser
             $result[$page->id()] = $page;
         }
 
-        return $result;
+        return collect($result);
     }
 
     private function parseAdapterConfiguration(array $pageConfiguration): array

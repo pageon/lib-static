@@ -2,7 +2,6 @@
 
 namespace Pageon\Html\Meta;
 
-use Pageon\Html\Meta\Config\DefaultConfigurator;
 use Pageon\Html\Meta\Item\CharsetMeta;
 use Pageon\Html\Meta\Item\HttpEquivMeta;
 use Pageon\Html\Meta\Item\ItemPropMeta;
@@ -22,6 +21,8 @@ class Meta
 
     final public function __construct(string $charset = 'UTF-8') {
         $this->charset($charset);
+        $this->name('viewport', 'width=device-width, initial-scale=1');
+
         $this->socialMeta = [
             new GooglePlusMeta($this),
             new TwitterMeta($this),

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Stitcher\Test;
-
 
 use Pageon\Html\Image\FixedWidthScaler;
 use Pageon\Html\Image\ImageFactory;
@@ -26,8 +24,10 @@ trait CreateStitcherObjects
         );
     }
 
-    protected function createPageParser(VariableParser $variableParser) : PageParser
+    protected function createPageParser(VariableParser $variableParser = null) : PageParser
     {
+        $variableParser = $variableParser ?? $this->createVariableParser();
+
         return PageParser::make(
             PageFactory::make($variableParser),
             AdapterFactory::make($variableParser)

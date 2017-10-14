@@ -28,10 +28,9 @@ EOT
                 'variable' => 'Hello world',
             ],
         ]);
-        $page = reset($result);
 
         $renderer = $this->createPageRenderer();
-        $html = $renderer->render($page);
+        $html = $renderer->render($result->first());
 
         $this->assertEquals('Hello world', $html);
     }

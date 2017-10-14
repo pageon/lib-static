@@ -16,13 +16,11 @@ class PageParserTest extends StitcherTest
         $variableParser = $this->createVariableParser();
         $parser = PageParser::make($this->createPageFactory($variableParser), $this->createAdapterFactory($variableParser));
 
-        $result = $parser->parse([
+        $page = $parser->parse([
             'id'       => '/',
             'template' => 'index.twig',
-        ]);
-        $page = reset($result);
+        ])->first();
 
-        $this->assertTrue(is_array($result));
         $this->assertInstanceOf(Page::class, $page);
     }
 
@@ -37,15 +35,14 @@ EOT
 
         $variableParser = $this->createVariableParser();
         $parser = PageParser::make($this->createPageFactory($variableParser), $this->createAdapterFactory($variableParser));
-        $result = $parser->parse([
+        $page = $parser->parse([
             'id'        => '/',
             'template'  => 'index.twig',
             'variables' => [
                 'title' => 'Test',
                 'body'  => 'test.md',
             ],
-        ]);
-        $page = reset($result);
+        ])->first();
 
         $this->assertEquals('Test', $page->variable('title'));
         $this->assertEquals('<h1>Hello world</h1>', $page->variable('body'));
@@ -83,7 +80,6 @@ EOT
             ],
         ]);
 
-        $this->assertTrue(is_array($result));
         $this->assertArrayHasKey('/a', $result);
         $this->assertArrayHasKey('/b', $result);
 
