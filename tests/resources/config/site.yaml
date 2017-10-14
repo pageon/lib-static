@@ -1,3 +1,12 @@
+/entries/{id}:
+    template: detail.twig
+    variables:
+        entry: data/entries.yaml
+    config:
+        collection:
+            variable: entry
+            parameter: id
+
 /entries-paginated:
     template: overview.twig
     variables:

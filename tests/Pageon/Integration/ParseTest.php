@@ -34,6 +34,7 @@ class ParseTest extends StitcherTest
         $this->assertIndexPageParsed();
         $this->assertOverviewPageParsed();
         $this->assertOverviewPaginatedPageParsed();
+        $this->assertDetailPageParsed();
     }
 
     private function assertIndexPageParsed(): void
@@ -71,5 +72,12 @@ class ParseTest extends StitcherTest
 
         $page3 = File::read('public/entries-paginated/page-2.html');
         $this->assertNotNull($page3);
+    }
+
+    private function assertDetailPageParsed(): void
+    {
+        $detail = File::read('public/entries/a.html');
+        $this->assertNotNull($detail);
+        $this->assertContains('<h1>A</h1>', $detail);
     }
 }

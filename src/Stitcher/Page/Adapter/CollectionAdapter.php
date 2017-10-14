@@ -32,21 +32,13 @@ class CollectionAdapter implements Adapter, Validatory
     public function transform(array $pageConfiguration): array
     {
         $variable = $pageConfiguration['variables'][$this->variable] ?? null;
-        $entries = $this->variableParser->parse($variable)['entries'] ?? $variable;
+        $entries = $this->getEntries($variable);
         $collectionPageConfiguration = [];
 
         foreach ($entries as $entryId => $entry) {
-            $entryConfiguration = $pageConfiguration;
-            $parsedEntryId = str_replace('{' . $this->parameter . '}', $entryId, $pageConfiguration['id']);
-            $entryConfiguration['id'] = $parsedEntryId;
-            $entryConfiguration['variables'][$this->variable] = $entry;
-            $entryConfiguration['variables']['meta'] = array_merge(
-                $entryConfiguration['variables']['meta'] ?? [],
-                $this->createMetaVariable($entryConfiguration)
-            );
-            unset($entryConfiguration['config']['collection']);
+            $entryConfiguration = $this->createEntryConfiguration($pageConfiguration, $entryId, $entry);
 
-            $collectionPageConfiguration[$parsedEntryId] = $entryConfiguration;
+            $collectionPageConfiguration[$entryConfiguration['id']] = $entryConfiguration;
         }
 
         return $collectionPageConfiguration;
@@ -55,6 +47,31 @@ class CollectionAdapter implements Adapter, Validatory
     public function isValid($subject): bool
     {
         return is_array($subject) && isset($subject['variable']) && isset($subject['parameter']);
+    }
+
+    protected function getEntries($variable): array
+    {
+        $entries = $this->variableParser->parse($variable)['entries']
+            ?? $this->variableParser->parse($variable)
+            ?? $variable;
+
+        return $entries;
+    }
+
+    protected function createEntryConfiguration(array $pageConfiguration, $entryId, $entry): array
+    {
+        $entryConfiguration = $pageConfiguration;
+        $parsedEntryId = str_replace('{' . $this->parameter . '}', $entryId, $pageConfiguration['id']);
+        $entryConfiguration['id'] = $parsedEntryId;
+        $entryConfiguration['variables'][$this->variable] = $entry;
+        $entryConfiguration['variables']['meta'] = array_merge(
+            $entryConfiguration['variables']['meta'] ?? [],
+            $this->createMetaVariable($entryConfiguration)
+        );
+
+        unset($entryConfiguration['config']['collection']);
+
+        return $entryConfiguration;
     }
 
     protected function createMetaVariable(array $entryConfiguration): array
