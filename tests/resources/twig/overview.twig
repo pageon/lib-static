@@ -1,0 +1,29 @@
+{% extends '_partials/main.twig' %}
+
+{% block content %}
+
+    <div>
+        {% for entry in entries %}
+            <h1>{{ entry.title }}</h1>
+        {% endfor %}
+    </div>
+
+    <div>
+        {% if pagination is defined %}
+
+            {% if pagination.previous != null %}
+                <a href="{{ pagination.previous.url }}">
+                    {{ pagination.previous.index }}
+                </a>
+            {% endif %}
+
+            {% if pagination.next != null %}
+                <a href="{{ pagination.next.url }}">
+                    {{ pagination.next.index }}
+                </a>
+            {% endif %}
+
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -5,18 +5,18 @@ namespace Pageon\Test\Stitcher\Command;
 use Pageon\Stitcher\Command\Parse;
 use Stitcher\File;
 use Stitcher\Test\CreateStitcherObjects;
-use Stitcher\Test\CreateTwigTemplates;
+use Stitcher\Test\CreateStitcherFiles;
 use Stitcher\Test\StitcherTest;
 
 class ParseTest extends StitcherTest
 {
     use CreateStitcherObjects;
-    use CreateTwigTemplates;
+    use CreateStitcherFiles;
 
     /** @test */
     public function test_parse()
     {
-        $this->createIndexTemplate();
+        $this->createAllTemplates();
         $this->createConfigurationFile();
 
         $command = Parse::make(

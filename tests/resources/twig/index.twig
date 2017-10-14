@@ -1,12 +1,9 @@
-<html>
-<head>
-    {% if meta is defined %}
-        {{ meta.render()|raw }}
-    {% endif %}
-</head>
-<body>
+{% extends '_partials/main.twig' %}
+
+{% block content %}
+
     {% if variable is defined %}
         {{ variable }}
     {% endif %}
-</body>
-</html>
+
+{% endblock %}

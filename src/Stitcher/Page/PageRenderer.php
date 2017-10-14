@@ -20,6 +20,9 @@ class PageRenderer
 
     public function render(Page $page): string
     {
-        return $this->renderer->renderTemplate($page->template(), $page->variables());
+        $variables = $page->variables();
+        $variables['_meta'] = $page->meta();
+
+        return $this->renderer->renderTemplate($page->template(), $variables);
     }
 }

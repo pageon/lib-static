@@ -59,7 +59,9 @@ class PaginationAdapter implements Adapter, Validatory
     protected function getEntries(array $pageConfiguration): ?array
     {
         $variable = $pageConfiguration['variables'][$this->variable] ?? null;
-        $entries = $this->variableParser->parse($variable)['entries'] ?? $variable;
+        $entries = $this->variableParser->parse($variable)['entries']
+            ?? $this->variableParser->parse($variable)
+            ?? $variable;
 
         return $entries;
     }
