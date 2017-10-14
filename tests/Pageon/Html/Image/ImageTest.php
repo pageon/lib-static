@@ -1,7 +1,8 @@
 <?php
 
-namespace Pageon\Html\Image;
+namespace Pageon\Test\Html\Image;
 
+use Pageon\Html\Image\Image;
 use Stitcher\Test\StitcherTest;
 
 class ImageTest extends StitcherTest

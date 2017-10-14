@@ -1,8 +1,9 @@
 <?php
 
-namespace Pageon\Html\Meta\Social;
+namespace Pageon\Test\Html\Meta\Social;
 
 use Pageon\Html\Meta\Meta;
+use Pageon\Html\Meta\Social\OpenGraphMeta;
 use Pageon\Html\Meta\SocialMeta;
 use PHPUnit\Framework\TestCase;
 

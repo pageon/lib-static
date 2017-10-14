@@ -1,7 +1,9 @@
 <?php
 
-namespace Pageon\Html\Image;
+namespace Pageon\Test\Html\Image;
 
+use Pageon\Html\Image\FixedWidthScaler;
+use Pageon\Html\Image\ImageFactory;
 use Stitcher\File;
 use Stitcher\Test\StitcherTest;
 

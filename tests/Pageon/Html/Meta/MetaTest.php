@@ -1,7 +1,8 @@
 <?php
 
-namespace Pageon\Html\Meta;
+namespace Pageon\Test\Html\Meta;
 
+use Pageon\Html\Meta\Meta;
 use PHPUnit\Framework\TestCase;
 
 class MetaTest extends TestCase

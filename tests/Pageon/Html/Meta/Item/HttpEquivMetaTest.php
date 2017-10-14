@@ -1,7 +1,8 @@
 <?php
 
-namespace Pageon\Html\Meta\Item;
+namespace Pageon\Test\Html\Meta\Item;
 
+use Pageon\Html\Meta\Item\HttpEquivMeta;
 use PHPUnit\Framework\TestCase;
 
 class HttpEquivMetaTest extends TestCase

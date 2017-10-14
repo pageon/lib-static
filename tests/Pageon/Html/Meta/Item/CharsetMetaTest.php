@@ -1,7 +1,8 @@
 <?php
 
-namespace Pageon\Html\Meta\Item;
+namespace Pageon\Test\Html\Meta\Item;
 
+use Pageon\Html\Meta\Item\CharsetMeta;
 use PHPUnit\Framework\TestCase;
 
 class CharsetMetaTest extends TestCase
