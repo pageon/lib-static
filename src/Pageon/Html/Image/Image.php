@@ -29,6 +29,8 @@ class Image
 
     public function addSrcset(string $src, int $width): Image
     {
+        $src = ltrim($src, '/');
+
         $this->srcset[] = "/{$src} {$width}w";
 
         return $this;

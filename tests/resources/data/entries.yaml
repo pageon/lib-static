@@ -1,5 +1,8 @@
 a:
     title: A
+    image:
+        src: images/green.jpg
+        alt: test
 b:
     title: B
 c:

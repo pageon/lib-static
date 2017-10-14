@@ -26,7 +26,7 @@ trait CreateStitcherObjects
 
     protected function createPageParser(VariableParser $variableParser = null) : PageParser
     {
-        $variableParser = $variableParser ?? $this->createVariableParser();
+        $variableParser = $variableParser ?? $this->createVariableParser(File::path());
 
         return PageParser::make(
             PageFactory::make($variableParser),
@@ -34,12 +34,13 @@ trait CreateStitcherObjects
         );
     }
 
-    protected function createVariableParser() : VariableParser
+    protected function createVariableParser(string $sourceDirectory = null) : VariableParser
     {
         return VariableParser::make(
             VariableFactory::make()
                 ->setMarkdownParser(new Parsedown())
                 ->setYamlParser(new Yaml())
+                ->setImageParser($this->createImageFactory($sourceDirectory))
         );
     }
 
@@ -53,11 +54,12 @@ trait CreateStitcherObjects
         return AdapterFactory::make($variableParser);
     }
 
-    protected function createImageFactory(): ImageFactory
+    protected function createImageFactory($sourceDirectory = null): ImageFactory
     {
+        $sourceDirectory = $sourceDirectory ?? __DIR__ . '/';
         $publicPath = File::path('public');
 
-        return ImageFactory::make(__DIR__ . '/', $publicPath, FixedWidthScaler::make([
+        return ImageFactory::make($sourceDirectory, $publicPath, FixedWidthScaler::make([
             300, 500,
         ]));
     }

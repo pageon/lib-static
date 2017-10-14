@@ -14,11 +14,10 @@ class CollectionAdapterTest extends StitcherTest
     public function it_can_transform_a_single_collection_into_multiple()
     {
         File::write('entries.yaml', <<<EOT
-entries:
-    a:
-        name: A
-    b:
-        name: B
+a:
+    name: A
+b:
+    name: B
 EOT
         );
 

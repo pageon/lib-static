@@ -52,11 +52,10 @@ EOT
     public function it_can_parse_a_collection_of_pages()
     {
         File::write('entries.yaml', <<<EOT
-entries:
-    a:
-        name: A
-    b:
-        name: B
+a:
+    name: A
+b:
+    name: B
 EOT
         );
 

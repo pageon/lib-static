@@ -31,6 +31,14 @@ trait CreateStitcherFiles
         $fs->copy(__DIR__ . '/resources/data/entries.yaml', File::path('data/entries.yaml'));
     }
 
+    protected function createImageFiles()
+    {
+        $fs = new Filesystem();
+
+        $fs->copy(__DIR__ . '/resources/green_large.jpg', File::path('images/green_large.jpg'));
+        $fs->copy(__DIR__ . '/resources/green.jpg', File::path('images/green.jpg'));
+    }
+
     protected function createSiteConfiguration(string $configurationPath = null): void
     {
         $fs = new Filesystem();

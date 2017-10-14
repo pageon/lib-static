@@ -31,8 +31,7 @@ class CollectionAdapter implements Adapter, Validatory
 
     public function transform(array $pageConfiguration): array
     {
-        $variable = $pageConfiguration['variables'][$this->variable] ?? null;
-        $entries = $this->getEntries($variable);
+        $entries = $this->getEntries($pageConfiguration);
         $collectionPageConfiguration = [];
 
         foreach ($entries as $entryId => $entry) {
@@ -49,10 +48,11 @@ class CollectionAdapter implements Adapter, Validatory
         return is_array($subject) && isset($subject['variable']) && isset($subject['parameter']);
     }
 
-    protected function getEntries($variable): array
+    protected function getEntries($pageConfiguration): array
     {
-        $entries = $this->variableParser->parse($variable)['entries']
-            ?? $this->variableParser->parse($variable)
+        $variable = $pageConfiguration['variables'][$this->variable] ?? null;
+
+        $entries = $this->variableParser->parse($variable)
             ?? $variable;
 
         return $entries;

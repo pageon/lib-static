@@ -30,11 +30,11 @@ class ImageVariable extends AbstractVariable
     {
         $image = $this->imageFactory->create($this->unparsed['src']);
 
-        $this->parsed = [
+        $this->parsed = collect([
             'src'    => $image->src(),
             'srcset' => $image->srcset(),
             'alt'    => $this->unparsed['alt'] ?? null,
-        ];
+        ]);
 
         return $this;
     }

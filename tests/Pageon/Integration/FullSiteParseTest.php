@@ -8,7 +8,7 @@ use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\CreateStitcherFiles;
 use Stitcher\Test\StitcherTest;
 
-class ParseTest extends StitcherTest
+class FullSiteParseTest extends StitcherTest
 {
     use CreateStitcherFiles;
     use CreateStitcherObjects;
@@ -21,6 +21,7 @@ class ParseTest extends StitcherTest
         $this->createAllTemplates();
         $this->createSiteConfiguration($configurationFile);
         $this->createDataFile();
+        $this->createImageFiles();
 
         $command = Parse::make(
             File::path('public'),
@@ -35,6 +36,7 @@ class ParseTest extends StitcherTest
         $this->assertOverviewPageParsed();
         $this->assertOverviewPaginatedPageParsed();
         $this->assertDetailPageParsed();
+        $this->assertImageParsed();
     }
 
     private function assertIndexPageParsed(): void
@@ -83,5 +85,14 @@ class ParseTest extends StitcherTest
         $detail = File::read('public/entries/a.html');
         $this->assertNotNull($detail);
         $this->assertContains('<h1>A</h1>', $detail);
+    }
+
+    private function assertImageParsed()
+    {
+        $detail = File::read('public/entries/a.html');
+
+        $this->assertContains('<img src="/images/green.jpg"', $detail);
+        $this->assertContains('srcset="/images/green.jpg 250w', $detail);
+//        $this->assertContains('alt="test"', $detail);
     }
 }

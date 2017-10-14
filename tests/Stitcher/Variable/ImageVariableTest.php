@@ -19,7 +19,6 @@ class ImageVariableTest extends StitcherTest
         )->parse();
 
         $parsed = $variable->parsed();
-        $this->assertTrue(is_array($parsed));
         $this->assertArrayHasKey('src', $parsed, '`src` not found in parsed image.');
         $this->assertArrayHasKey('srcset', $parsed, '`srcset not found in parsed image.`');
         $this->assertEquals('/resources/green.jpg', $parsed['src'], '`src` does not match expected value in parsed image.');
