@@ -11,7 +11,7 @@ class PaginatedMetaTest extends StitcherTest
     use CreateStitcherObjects;
 
     /** @test */
-    public function basic_meta_test()
+    public function paginated_meta_test()
     {
         $pageParser = $this->createPageParser();
 

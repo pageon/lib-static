@@ -32,7 +32,7 @@ class CollectionAdapter implements Adapter, Validatory
     public function transform(array $pageConfiguration): array
     {
         $variable = $pageConfiguration['variables'][$this->variable] ?? null;
-        $entries = $this->variableParser->parse($variable)['entries'] ?? [];
+        $entries = $this->variableParser->parse($variable)['entries'] ?? $variable;
         $collectionPageConfiguration = [];
 
         foreach ($entries as $entryId => $entry) {
@@ -40,6 +40,10 @@ class CollectionAdapter implements Adapter, Validatory
             $parsedEntryId = str_replace('{' . $this->parameter . '}', $entryId, $pageConfiguration['id']);
             $entryConfiguration['id'] = $parsedEntryId;
             $entryConfiguration['variables'][$this->variable] = $entry;
+            $entryConfiguration['variables']['meta'] = array_merge(
+                $entryConfiguration['variables']['meta'] ?? [],
+                $this->createMetaVariable($entryConfiguration)
+            );
             unset($entryConfiguration['config']['collection']);
 
             $collectionPageConfiguration[$parsedEntryId] = $entryConfiguration;
@@ -51,5 +55,38 @@ class CollectionAdapter implements Adapter, Validatory
     public function isValid($subject): bool
     {
         return is_array($subject) && isset($subject['variable']) && isset($subject['parameter']);
+    }
+
+    protected function createMetaVariable(array $entryConfiguration): array
+    {
+        $meta = [];
+
+        if ($title = $this->getTitleMeta($entryConfiguration)) {
+            $meta['title'] = $title;
+        }
+
+        if ($description = $this->getDescriptionMeta($entryConfiguration)) {
+            $meta['description'] = $description;
+        }
+
+        return $meta;
+    }
+
+    protected function getTitleMeta(array $entryConfiguration): ?string
+    {
+        $title = $entryConfiguration['variables'][$this->variable]['meta']['title']
+            ?? $entryConfiguration['variables'][$this->variable]['title']
+            ?? null;
+
+        return $title;
+    }
+
+    protected function getDescriptionMeta(array $entryConfiguration): ?string
+    {
+        $description = $entryConfiguration['variables'][$this->variable]['meta']['description']
+            ?? $entryConfiguration['variables'][$this->variable]['description']
+            ?? null;
+
+        return $description;
     }
 }
