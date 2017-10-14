@@ -39,23 +39,23 @@ class PaginationAdapterTest extends StitcherTest
         $result = $adapter->transform($pageConfiguration);
 
         $page1 = $result['/page-1'];
-        $this->assertTrue(isset($page1['variables']['pagination']));
-        $this->assertEquals(2, $page1['variables']['pagination']['next']['index']);
-        $this->assertEquals('/page-2', $page1['variables']['pagination']['next']['url']);
-        $this->assertNull($page1['variables']['pagination']['previous']);
+        $this->assertTrue(isset($page1['variables']['_pagination']));
+        $this->assertEquals(2, $page1['variables']['_pagination']['next']['index']);
+        $this->assertEquals('/page-2', $page1['variables']['_pagination']['next']['url']);
+        $this->assertNull($page1['variables']['_pagination']['previous']);
 
         $page2 = $result['/page-2'];
-        $this->assertTrue(isset($page2['variables']['pagination']));
-        $this->assertEquals(1, $page2['variables']['pagination']['previous']['index']);
-        $this->assertEquals('/page-1', $page2['variables']['pagination']['previous']['url']);
-        $this->assertEquals(3, $page2['variables']['pagination']['next']['index']);
-        $this->assertEquals('/page-3', $page2['variables']['pagination']['next']['url']);
+        $this->assertTrue(isset($page2['variables']['_pagination']));
+        $this->assertEquals(1, $page2['variables']['_pagination']['previous']['index']);
+        $this->assertEquals('/page-1', $page2['variables']['_pagination']['previous']['url']);
+        $this->assertEquals(3, $page2['variables']['_pagination']['next']['index']);
+        $this->assertEquals('/page-3', $page2['variables']['_pagination']['next']['url']);
 
         $page3 = $result['/page-3'];
-        $this->assertTrue(isset($page3['variables']['pagination']));
-        $this->assertEquals(2, $page3['variables']['pagination']['previous']['index']);
-        $this->assertEquals('/page-2', $page3['variables']['pagination']['previous']['url']);
-        $this->assertNull($page3['variables']['pagination']['next']);
+        $this->assertTrue(isset($page3['variables']['_pagination']));
+        $this->assertEquals(2, $page3['variables']['_pagination']['previous']['index']);
+        $this->assertEquals('/page-2', $page3['variables']['_pagination']['previous']['url']);
+        $this->assertNull($page3['variables']['_pagination']['next']);
     }
 
     private function createPageConfiguration(): array

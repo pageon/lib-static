@@ -79,7 +79,7 @@ class PaginationAdapter implements Adapter, Validatory
         $entryConfiguration['variables'][$this->variable] = $entriesForPage;
 
         $paginationVariable = $this->createPaginationVariable($pageId, $pageIndex, $pageCount);
-        $entryConfiguration['variables']['pagination'] = $paginationVariable;
+        $entryConfiguration['variables']['_pagination'] = $paginationVariable;
 
         unset($entryConfiguration['config']['pagination']);
 

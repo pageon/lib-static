@@ -54,8 +54,8 @@ class Page
         $this->meta = Meta::create()
             ->title($this->variables['meta']['title'] ?? $this->variables['title'] ?? null)
             ->description($this->variables['meta']['description'] ?? $this->variables['description'] ?? null)
-            ->link('next', $this->variables['pagination']['next']['url'] ?? null)
-            ->link('prev', $this->variables['pagination']['previous']['url'] ?? null)
+            ->link('next', $this->variables['_pagination']['next']['url'] ?? null)
+            ->link('prev', $this->variables['_pagination']['previous']['url'] ?? null)
         ;
     }
 }
