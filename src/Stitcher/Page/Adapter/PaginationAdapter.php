@@ -83,23 +83,39 @@ class PaginationAdapter implements Adapter, Validatory
 
     private function createPaginationVariable(string $pageId, int $pageIndex, int $pageCount): array
     {
-        $next =  $pageIndex < $pageCount ? $pageIndex + 1 : null;
-        $nextUrl = $next ? "{$pageId}/page-{$next}" : null;
-
-        $previous = $pageIndex > 1 ? $pageIndex - 1 : null;
-        $previousUrl = $previous ? "{$pageId}/page-{$previous}" : null;
-
         return [
             'current'  => $pageIndex,
-            'previous' => $previous ? [
-                'url'   => $previousUrl,
-                'index' => $previous,
-            ] : null,
-            'next'     => $next ? [
-                'url'   => $nextUrl,
-                'index' => $next,
-            ] : null,
+            'previous' => $this->createPreviousPagination($pageId, $pageIndex),
+            'next'     => $this->createNextPagination($pageId, $pageIndex, $pageCount),
             'pages'    => $pageCount,
+        ];
+    }
+
+    private function createPreviousPagination(string $pageId, int $pageIndex): ?array
+    {
+        if ($pageIndex <= 1) {
+            return null;
+        }
+
+        $previous = $pageIndex - 1;
+
+        return [
+            'url'   => "{$pageId}/page-{$previous}",
+            'index' => $previous,
+        ];
+    }
+
+    private function createNextPagination(string $pageId, int $pageIndex, int $pageCount): ?array
+    {
+        if ($pageIndex >= $pageCount) {
+            return null;
+        }
+
+        $next = $pageIndex + 1;
+
+        return [
+            'url'   => "{$pageId}/page-{$next}",
+            'index' => $next,
         ];
     }
 }
