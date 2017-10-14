@@ -38,7 +38,7 @@ class PaginationAdapter implements Adapter, Validatory
         for ($pageIndex = 1; $pageIndex <= $pageCount; $pageIndex++) {
             $entriesForPage = array_splice($entries, 0, $this->perPage);
 
-            $entryConfiguration = $this->createEntryConfiguration(
+            $entryConfiguration = $this->createPageConfiguration(
                 $pageConfiguration,
                 $entriesForPage,
                 $pageIndex,
@@ -64,7 +64,7 @@ class PaginationAdapter implements Adapter, Validatory
         return $entries;
     }
 
-    protected function createEntryConfiguration(
+    protected function createPageConfiguration(
         array $entryConfiguration,
         array $entriesForPage,
         int $pageIndex,
