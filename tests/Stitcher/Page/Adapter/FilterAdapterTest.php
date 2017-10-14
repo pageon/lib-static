@@ -3,6 +3,7 @@
 namespace Stitcher\Page\Adapter;
 
 use Stitcher\File;
+use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\VariableFactory;
 use Stitcher\Variable\VariableParser;
@@ -10,6 +11,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class FilterAdapterTest extends StitcherTest
 {
+    use CreateStitcherObjects;
+
     /** @test */
     public function it_can_filter_values()
     {
@@ -50,13 +53,5 @@ EOT
         $this->assertArrayHasKey('a', $entries);
         $this->assertArrayNotHasKey('b', $entries);
         $this->assertArrayNotHasKey('c', $entries);
-    }
-
-    private function createVariableParser() : VariableParser
-    {
-        return VariableParser::make(
-            VariableFactory::make()
-                ->setYamlParser(new Yaml())
-        );
     }
 }

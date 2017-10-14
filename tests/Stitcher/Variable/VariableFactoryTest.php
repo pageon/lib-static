@@ -5,6 +5,7 @@ namespace Stitcher\Test\Stitcher\Variable;
 use Pageon\Html\Image\FixedWidthScaler;
 use Pageon\Html\Image\ImageFactory;
 use Stitcher\File;
+use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\ImageVariable;
 use Stitcher\Variable\JsonVariable;
@@ -15,6 +16,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class VariableFactoryTest extends StitcherTest
 {
+    use CreateStitcherObjects;
+
     /** @test */
     public function it_creates_the_right_variable()
     {
@@ -33,15 +36,6 @@ class VariableFactoryTest extends StitcherTest
         $this->assertInstanceOf(ImageVariable::class, $factory->create('image.gif'));
         $this->assertInstanceOf(ImageVariable::class, $factory->create([
             'src' => 'image.jpeg',
-        ]));
-    }
-
-    private function createImageFactory(): ImageFactory
-    {
-        $public = File::path('public');
-
-        return ImageFactory::make(__DIR__ . '/../../', $public, FixedWidthScaler::make([
-            300, 500,
         ]));
     }
 }

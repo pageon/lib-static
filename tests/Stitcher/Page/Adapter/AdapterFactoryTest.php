@@ -2,12 +2,13 @@
 
 namespace Stitcher\Page\Adapter;
 
+use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
-use Stitcher\Variable\VariableFactory;
-use Stitcher\Variable\VariableParser;
 
 class AdapterFactoryTest extends StitcherTest
 {
+    use CreateStitcherObjects;
+
     /** @test */
     public function it_creates_the_correct_adapter()
     {
@@ -15,12 +16,5 @@ class AdapterFactoryTest extends StitcherTest
 
         $this->assertInstanceOf(CollectionAdapter::class, $factory->create('collection', ['variable' => 'test', 'parameter' => 'id']));
         $this->assertInstanceOf(FilterAdapter::class, $factory->create('filter', ['entries' => ['name' => 'A']]));
-    }
-
-    private function createVariableParser() : VariableParser
-    {
-        return VariableParser::make(
-            VariableFactory::make()
-        );
     }
 }

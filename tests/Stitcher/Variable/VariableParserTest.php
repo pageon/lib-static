@@ -2,15 +2,14 @@
 
 namespace Stitcher\Variable;
 
-use Pageon\Html\Image\FixedWidthScaler;
-use Pageon\Html\Image\ImageFactory;
-use Parsedown;
 use Stitcher\File;
+use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
-use Symfony\Component\Yaml\Yaml;
 
 class VariableParserTest extends StitcherTest
 {
+    use CreateStitcherObjects;
+
     /** @test */
     public function it_can_parse_a_single_variable()
     {
@@ -38,25 +37,6 @@ EOT
         $parsed = $variableParser->parse($path);
 
         $this->assertTrue(isset($parsed['entry']['child']['title']));
-    }
-
-    private function createVariableFactory() : VariableFactory
-    {
-        $factory = VariableFactory::make()
-            ->setMarkdownParser(new Parsedown())
-            ->setYamlParser(new Yaml())
-            ->setImageParser($this->createImageFactory());
-
-        return $factory;
-    }
-
-    private function createImageFactory(): ImageFactory
-    {
-        $public = File::path('public');
-
-        return ImageFactory::make(__DIR__ . '/../../', $public, FixedWidthScaler::make([
-            300, 500,
-        ]));
     }
 
     private function createRecursiveFiles(string $path)

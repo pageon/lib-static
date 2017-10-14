@@ -2,16 +2,14 @@
 
 namespace Stitcher\Page;
 
-use Parsedown;
 use Stitcher\File;
-use Stitcher\Page\Adapter\AdapterFactory;
+use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
-use Stitcher\Variable\VariableFactory;
-use Stitcher\Variable\VariableParser;
-use Symfony\Component\Yaml\Yaml;
 
 class PageParserTest extends StitcherTest
 {
+    use CreateStitcherObjects;
+
     /** @test */
     public function it_can_parse_a_page_config()
     {
@@ -94,24 +92,5 @@ EOT
 
         $pageB = $result['/b'];
         $this->assertEquals('B', $pageB->variable('entry')['name']);
-    }
-
-    private function createVariableParser() : VariableParser
-    {
-        return VariableParser::make(
-            VariableFactory::make()
-                ->setMarkdownParser(new Parsedown())
-                ->setYamlParser(new Yaml())
-        );
-    }
-
-    private function createPageFactory(VariableParser $variableParser) : PageFactory
-    {
-        return PageFactory::make($variableParser);
-    }
-
-    private function createAdapterFactory(VariableParser $variableParser) : AdapterFactory
-    {
-        return AdapterFactory::make($variableParser);
     }
 }

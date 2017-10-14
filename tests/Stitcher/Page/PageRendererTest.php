@@ -3,14 +3,13 @@
 namespace Stitcher\Page;
 
 use Stitcher\File;
-use Stitcher\Page\Adapter\AdapterFactory;
-use Stitcher\Renderer\TwigRenderer;
+use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
-use Stitcher\Variable\VariableFactory;
-use Stitcher\Variable\VariableParser;
 
 class PageRendererTest extends StitcherTest
 {
+    use CreateStitcherObjects;
+
     /** @test */
     public function it_can_render_a_page_as_html()
     {
@@ -35,27 +34,5 @@ EOT
         $html = $renderer->render($page);
 
         $this->assertEquals('Hello world', $html);
-    }
-
-    private function createVariableParser() : VariableParser
-    {
-        return VariableParser::make(
-            VariableFactory::make()
-        );
-    }
-
-    private function createPageParser(VariableParser $variableParser) : PageParser
-    {
-        return PageParser::make(
-            PageFactory::make($variableParser),
-            AdapterFactory::make($variableParser)
-        );
-    }
-
-    private function createPageRenderer() : PageRenderer
-    {
-        return PageRenderer::make(
-            TwigRenderer::make(File::path('/template'))
-        );
     }
 }

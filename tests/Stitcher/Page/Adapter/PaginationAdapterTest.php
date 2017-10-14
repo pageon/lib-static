@@ -3,6 +3,7 @@
 namespace Stitcher\Page\Adapter;
 
 use Stitcher\File;
+use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\VariableFactory;
 use Stitcher\Variable\VariableParser;
@@ -10,6 +11,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class PaginationAdapterTest extends StitcherTest
 {
+    use CreateStitcherObjects;
+
     /** @test */
     public function it_can_transform_a_collection_of_entries_into_multiple_pages()
     {
@@ -52,13 +55,5 @@ EOT
 
         $this->assertCount(1, $result['/page-2']['variables']['entries']);
         $this->assertEquals('C', $result['/page-2']['variables']['entries']['c']['name']);
-    }
-
-    private function createVariableParser() : VariableParser
-    {
-        return VariableParser::make(
-            VariableFactory::make()
-                ->setYamlParser(new Yaml())
-        );
     }
 }
