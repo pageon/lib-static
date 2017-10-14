@@ -62,13 +62,17 @@ class ParseTest extends StitcherTest
         $this->assertContains('<h1>A</h1>', $page1);
         $this->assertContains('<h1>B</h1>', $page1);
         $this->assertNotContains('<h1>C</h1>', $page1);
-        $this->assertNotContains('href="entries-paginated/page-1.html"', $page1);
+        $this->assertNotContains('<a href="/entries-paginated/page-1"', $page1);
+        $this->assertContains('<a href="/entries-paginated/page-2"', $page1);
+        $this->assertContains('<link rel="next" href="/entries-paginated/page-2"', $page1);
 
         $page2 = File::read('public/entries-paginated/page-2.html');
         $this->assertNotNull($page2);
         $this->assertContains('<h1>C</h1>', $page2);
-        $this->assertNotContains('href="entries-paginated/page-1.html"', $page2);
-        $this->assertNotContains('href="entries-paginated/page-3.html"', $page2);
+        $this->assertContains('<a href="/entries-paginated/page-1"', $page2);
+        $this->assertContains('<a href="/entries-paginated/page-3"', $page2);
+        $this->assertContains('<link rel="prev" href="/entries-paginated/page-1"', $page2);
+        $this->assertContains('<link rel="next" href="/entries-paginated/page-3"', $page2);
 
         $page3 = File::read('public/entries-paginated/page-2.html');
         $this->assertNotNull($page3);

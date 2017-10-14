@@ -9,17 +9,17 @@
     </div>
 
     <div>
-        {% if pagination is defined %}
+        {% if _pagination is defined %}
 
-            {% if pagination.previous != null %}
-                <a href="{{ pagination.previous.url }}">
-                    {{ pagination.previous.index }}
+            {% if _pagination.previous != null %}
+                <a href="{{ _pagination.previous.url }}">
+                    {{ _pagination.previous.index }}
                 </a>
             {% endif %}
 
-            {% if pagination.next != null %}
-                <a href="{{ pagination.next.url }}">
-                    {{ pagination.next.index }}
+            {% if _pagination.next != null %}
+                <a href="{{ _pagination.next.url }}">
+                    {{ _pagination.next.index }}
                 </a>
             {% endif %}
 
