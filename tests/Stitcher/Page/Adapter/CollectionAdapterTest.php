@@ -2,13 +2,9 @@
 
 namespace Stitcher\Page\Adapter;
 
-use Parsedown;
 use Stitcher\File;
 use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
-use Stitcher\Variable\VariableFactory;
-use Stitcher\Variable\VariableParser;
-use Symfony\Component\Yaml\Yaml;
 
 class CollectionAdapterTest extends StitcherTest
 {

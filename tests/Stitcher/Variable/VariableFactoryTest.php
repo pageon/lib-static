@@ -2,9 +2,6 @@
 
 namespace Stitcher\Test\Stitcher\Variable;
 
-use Pageon\Html\Image\FixedWidthScaler;
-use Pageon\Html\Image\ImageFactory;
-use Stitcher\File;
 use Stitcher\Test\CreateStitcherObjects;
 use Stitcher\Test\StitcherTest;
 use Stitcher\Variable\ImageVariable;
