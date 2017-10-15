@@ -16,40 +16,17 @@ class VariableParser
         return new self($factory);
     }
 
-    /**
-     * @param $value
-     *
-     * @return mixed
-     */
-    public function parse($value)
+    public function parse($unparsedValue)
     {
-        $variable = $this->factory->create($value);
-        $parsed = $variable ? $variable->parsed() : $value;
-        $parsed = $this->parseChildren($value, $parsed);
+        $parsedValue = null;
+        $variable = $this->factory->create($unparsedValue);
 
-        return $parsed;
-    }
-
-    /**
-     * @param $value
-     * @param $parsed
-     *
-     * @return mixed
-     */
-    private function parseChildren($value, $parsed)
-    {
-        if (is_array($parsed)) {
-            foreach ($parsed as &$parsedField) {
-                $parsedField = $this->parse($parsedField);
-            }
+        if ($variable) {
+            $parsedValue = $variable->parsed();
         } else {
-            $childVariable = $this->factory->create($value);
-
-            if ($childVariable) {
-                $parsed = $this->parse($childVariable->parse()->parsed());
-            }
+            $parsedValue = $unparsedValue;
         }
 
-        return $parsed;
+        return $parsedValue;
     }
 }

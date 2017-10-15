@@ -35,7 +35,7 @@ EOT
 
         $variableParser = VariableParser::make($this->createVariableFactory());
         $parsed = $variableParser->parse($path);
-
+dd($parsed);
         $this->assertTrue(isset($parsed['entry']['child']['title']));
     }
 

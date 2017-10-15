@@ -12,6 +12,7 @@ class VariableFactory extends DynamicFactory
     private $yamlParser = null;
     private $markdownParser = null;
     private $imageParser = null;
+    private $variableParser = null;
 
     public function __construct()
     {
@@ -47,7 +48,14 @@ class VariableFactory extends DynamicFactory
         return $this;
     }
 
-    public function create($value): ?AbstractVariable
+    public function setVariableParser(VariableParser $variableParser): VariableFactory
+    {
+        $this->variableParser = $variableParser;
+
+        return $this;
+    }
+
+    public function create($value): AbstractVariable
     {
         foreach ($this->getRules() as $rule) {
             try {
@@ -61,7 +69,7 @@ class VariableFactory extends DynamicFactory
             }
         }
 
-        return null;
+        return DefaultVariable::make($value);
     }
 
     private function setJsonRule(): DynamicFactory
@@ -85,7 +93,7 @@ class VariableFactory extends DynamicFactory
             $extension = pathinfo($value, PATHINFO_EXTENSION);
 
             if (in_array($extension, ['yaml', 'yml'])) {
-                return YamlVariable::make($value, $this->yamlParser);
+                return YamlVariable::make($value, $this->yamlParser, $this->variableParser);
             }
 
             return null;

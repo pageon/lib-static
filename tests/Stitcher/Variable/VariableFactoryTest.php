@@ -21,7 +21,8 @@ class VariableFactoryTest extends StitcherTest
         $factory = VariableFactory::make()
             ->setYamlParser(new Yaml())
             ->setMarkdownParser(new \Parsedown())
-            ->setImageParser($this->createImageFactory());
+            ->setImageParser($this->createImageFactory())
+            ->setVariableParser($this->createVariableParser());
 
         $this->assertInstanceOf(JsonVariable::class, $factory->create('test.json'));
         $this->assertInstanceOf(YamlVariable::class, $factory->create('test.yaml'));
