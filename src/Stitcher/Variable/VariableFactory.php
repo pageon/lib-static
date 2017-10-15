@@ -119,13 +119,15 @@ class VariableFactory extends DynamicFactory
             }
 
             if (is_array($value)) {
-                $value = $value['src'] ?? null;
+                $srcPath = $value['src'] ?? null;
+            } else {
+                $srcPath = $value;
             }
 
-            $extension = pathinfo($value, PATHINFO_EXTENSION);
+            $extension = pathinfo($srcPath, PATHINFO_EXTENSION);
 
             if (in_array($extension, ['jpeg', 'jpg', 'png', 'gif'])) {
-                return ImageVariable::make($value, $this->imageParser);
+                return ImageVariable::make($srcPath, $this->imageParser, $value['alt'] ?? null);
             }
 
             return null;

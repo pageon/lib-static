@@ -24,11 +24,11 @@ class VariableFactoryTest extends StitcherTest
             ->setImageParser($this->createImageFactory())
             ->setVariableParser($this->createVariableParser());
 
+        $this->assertInstanceOf(ImageVariable::class, $factory->create('image.jpg'));
         $this->assertInstanceOf(JsonVariable::class, $factory->create('test.json'));
         $this->assertInstanceOf(YamlVariable::class, $factory->create('test.yaml'));
         $this->assertInstanceOf(YamlVariable::class, $factory->create('test.yml'));
         $this->assertInstanceOf(MarkdownVariable::class, $factory->create('test.md'));
-        $this->assertInstanceOf(ImageVariable::class, $factory->create('image.jpg'));
         $this->assertInstanceOf(ImageVariable::class, $factory->create('image.jpeg'));
         $this->assertInstanceOf(ImageVariable::class, $factory->create('image.png'));
         $this->assertInstanceOf(ImageVariable::class, $factory->create('image.gif'));

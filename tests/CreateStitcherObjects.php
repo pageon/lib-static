@@ -64,9 +64,12 @@ trait CreateStitcherObjects
         ]));
     }
 
-    protected function createVariableFactory() : VariableFactory
+    protected function createVariableFactory(VariableParser $variableParser = null) : VariableFactory
     {
+        $variableParser = $variableParser ?? $this->createVariableParser();
+
         $factory = VariableFactory::make()
+            ->setVariableParser($variableParser)
             ->setMarkdownParser(new Parsedown())
             ->setYamlParser(new Yaml())
             ->setImageParser($this->createImageFactory());

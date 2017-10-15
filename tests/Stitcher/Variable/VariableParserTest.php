@@ -20,7 +20,7 @@ entry:
 EOT
         );
 
-        $variableParser = VariableParser::make($this->createVariableFactory());
+        $variableParser = $this->createVariableParser();
         $parsed = $variableParser->parse($path);
 
         $this->assertTrue(is_array($parsed));
@@ -33,9 +33,9 @@ EOT
         $path = File::path('YamlVariableTest_test_recursive_parent.yaml');
         $this->createRecursiveFiles($path);
 
-        $variableParser = VariableParser::make($this->createVariableFactory());
+        $variableParser = $this->createVariableParser();
         $parsed = $variableParser->parse($path);
-dd($parsed);
+
         $this->assertTrue(isset($parsed['entry']['child']['title']));
     }
 

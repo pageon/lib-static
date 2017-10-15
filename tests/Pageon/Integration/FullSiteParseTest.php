@@ -93,6 +93,6 @@ class FullSiteParseTest extends StitcherTest
 
         $this->assertContains('<img src="/images/green.jpg"', $detail);
         $this->assertContains('srcset="/images/green.jpg 250w', $detail);
-//        $this->assertContains('alt="test"', $detail);
+        $this->assertContains('alt="test"', $detail);
     }
 }

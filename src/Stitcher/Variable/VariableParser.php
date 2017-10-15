@@ -9,6 +9,7 @@ class VariableParser
     public function __construct(VariableFactory $factory)
     {
         $this->factory = $factory;
+        $this->factory->setVariableParser($this);
     }
 
     public static function make(VariableFactory $factory): VariableParser
@@ -28,5 +29,10 @@ class VariableParser
         }
 
         return $parsedValue;
+    }
+
+    public function getVariable($unparsedValue): AbstractVariable
+    {
+        return $this->factory->create($unparsedValue);
     }
 }
