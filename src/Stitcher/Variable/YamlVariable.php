@@ -35,7 +35,6 @@ class YamlVariable extends AbstractVariable
     private function parseRecursive($unparsedValue)
     {
         $unparsedValue = $this->variableParser->getVariable($unparsedValue);
-        $parsedValue = null;
 
         if ($unparsedValue instanceof DefaultVariable) {
             $parsedValue = $unparsedValue->parsed();
@@ -45,7 +44,7 @@ class YamlVariable extends AbstractVariable
                     $property = $this->parseRecursive($property);
                 }
             }
-        } elseif ($unparsedValue instanceof AbstractVariable) {
+        } else {
             $parsedValue = $unparsedValue->parsed();
         }
 

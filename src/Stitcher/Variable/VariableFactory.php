@@ -118,11 +118,7 @@ class VariableFactory extends DynamicFactory
                 return null;
             }
 
-            if (is_array($value)) {
-                $srcPath = $value['src'] ?? null;
-            } else {
-                $srcPath = $value;
-            }
+            $srcPath = is_array($value) ? $value['src'] ?? null : $value;
 
             $extension = pathinfo($srcPath, PATHINFO_EXTENSION);
 
