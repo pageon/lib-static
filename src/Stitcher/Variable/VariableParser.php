@@ -19,7 +19,6 @@ class VariableParser
 
     public function parse($unparsedValue)
     {
-        $parsedValue = null;
         $variable = $this->factory->create($unparsedValue);
 
         if ($variable) {
