@@ -6,15 +6,19 @@ class Image
 {
     private $src;
     private $srcset = [];
+    private $sizes;
+    private $alt;
 
-    public function __construct(string $src)
+    public function __construct(string $src, ?string $sizes = null, ?string $alt = null)
     {
         $this->src = "/{$src}";
+        $this->sizes = $sizes;
+        $this->alt = $alt;
     }
 
-    public static function make(string $src): Image
+    public static function make(string $src, ?string $sizes = null, ?string $alt = null): Image
     {
-        return new self($src);
+        return new self($src, $sizes, $alt);
     }
 
     public function src(): string
@@ -25,6 +29,16 @@ class Image
     public function srcset(): string
     {
         return implode(', ', $this->srcset);
+    }
+
+    public function sizes(): ?string
+    {
+        return $this->sizes;
+    }
+
+    public function alt(): ?string
+    {
+        return $this->alt;
     }
 
     public function addSrcset(string $src, int $width): Image

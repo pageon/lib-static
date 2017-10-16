@@ -14,4 +14,20 @@ class ImageTest extends StitcherTest
 
         $this->assertInstanceOf(Image::class, $image);
     }
+
+    /** @test */
+    public function it_can_be_made_with_sizes()
+    {
+        $image = Image::make('resources/green.jpg', '100vw');
+
+        $this->assertEquals('100vw', $image->sizes());
+    }
+
+    /** @test */
+    public function it_can_be_made_with_alt()
+    {
+        $image = Image::make('resources/green.jpg', null, 'alt');
+
+        $this->assertEquals('alt', $image->alt());
+    }
 }
